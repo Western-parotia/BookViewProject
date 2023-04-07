@@ -11,6 +11,6 @@ Paper页面布局、事件、动画完全分离。在paperLayout继承成自Line
 * BookView ：提供使用API
 * PaperLayout：页面根布局
 * PuppetView：接受事件，渲染动画
-* ReadLayoutManager：控制布局
-* ReadRecyclerView：
+* BookLayoutManager：控制布局
+* BookRecyclerView：
 * RecyclerView.Adapter
