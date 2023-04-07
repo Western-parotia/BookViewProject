@@ -1,4 +1,6 @@
 # 介绍
+* app module:完整的阅读器demo
+* gpu_test module：独立的仿真动画demo
 
 提供一种阅读器的实现思路，基于RecyclerView，只需将PaperLayout作为Item根布局即可。
 
