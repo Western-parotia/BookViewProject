@@ -6,7 +6,7 @@
 
 采用木偶View将渲染， Paper页面布局、事件、动画完全分离。PaperLayout继承成自LinearLayout，
 支持放入图片，视频等元素，但完全无需关心翻页动画的渲染。（不包含文字的处理，以后应该也不会添加）
-![simple_view](./images/simple_view.png)
+![simple_view](./images/demo_pic.png)
 
 # 实现思路介绍
 
@@ -21,4 +21,4 @@
 
 > 如果用文字来阐述原理难免要长篇大论，何况这里涉及到Z轴View堆叠，借此机会展示下我的绘画能力吧🐶（瞎搞）
 
-![BookView](./images/Book_views.jpg)
+![BookView](./images/Book_view_desc.jpg)
