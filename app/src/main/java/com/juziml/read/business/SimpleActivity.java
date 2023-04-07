@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juziml.read.R;
+import com.juziml.read.business.read.view.BookView;
 import com.juziml.read.business.read.view.ReadLayoutManager;
-import com.juziml.read.business.read.view.ReadViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +20,9 @@ import java.util.List;
  */
 public class SimpleActivity extends AppCompatActivity {
 
-    ReadViewGroup readViewGroup;
+    BookView bookView;
 
-    ReadAdapter readAdapter;
+    BookPaperAdapter bookPaperAdapter;
 
     int position = 0;
     final int DATA_SIZE = 20;
@@ -31,19 +31,19 @@ public class SimpleActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_simple);
-        readViewGroup = findViewById(R.id.ar2dc_readViewGroup);
-        readAdapter = new ReadAdapter();
+        bookView = findViewById(R.id.ar2dc_readViewGroup);
+        bookPaperAdapter = new BookPaperAdapter();
 
-        readViewGroup.setAdapter(readAdapter);
-        readAdapter.setReadRecyclerViewV2(readViewGroup);
-        readViewGroup.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_CURL);
+        bookView.setAdapter(bookPaperAdapter);
+        bookPaperAdapter.setReadRecyclerViewV2(bookView);
+        bookView.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_CURL);
         position = 0;
-        readAdapter.setNewData(createData(DATA_SIZE));
+        bookPaperAdapter.setNewData(createData(DATA_SIZE));
         findViewById(R.id.ar2dc_btn_previous).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (position > 0) {
-                    readViewGroup.scrollToPosition(position -= 1);
+                    bookView.scrollToPosition(position -= 1);
                 }
             }
         });
@@ -52,12 +52,12 @@ public class SimpleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (position < DATA_SIZE - 1) {
-                    readViewGroup.scrollToPosition(position += 1);
+                    bookView.scrollToPosition(position += 1);
                 }
             }
         });
 
-        readAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        bookPaperAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.ir2d_iv) {
@@ -69,14 +69,14 @@ public class SimpleActivity extends AppCompatActivity {
                 }
             }
         });
-        readViewGroup.setOnPositionChangedListener(new ReadViewGroup.OnPositionChangedListener() {
+        bookView.setOnPositionChangedListener(new BookView.OnPositionChangedListener() {
             @Override
             public void onChanged(boolean arriveNext, int curPosition) {
                 position = curPosition;
             }
         });
 
-        readViewGroup.setOnClickMenuListener(new ReadViewGroup.OnClickMenuListener() {
+        bookView.setOnClickMenuListener(new BookView.OnClickMenuListener() {
             @Override
             public void onClickMenu() {
                 Toast.makeText(SimpleActivity.this, "点击菜单", Toast.LENGTH_LONG).show();
@@ -87,21 +87,21 @@ public class SimpleActivity extends AppCompatActivity {
         findViewById(R.id.ar2dc_btn_cover).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readViewGroup.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_COVER);
+                bookView.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_COVER);
             }
         });
 
         findViewById(R.id.ar2dc_btn_curl).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readViewGroup.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_CURL);
+                bookView.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_CURL);
 
             }
         });
         findViewById(R.id.ar2dc_btn_normal).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readViewGroup.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_NORMAL);
+                bookView.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_NORMAL);
             }
         });
 

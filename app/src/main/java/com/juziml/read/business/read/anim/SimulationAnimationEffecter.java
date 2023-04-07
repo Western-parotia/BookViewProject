@@ -18,7 +18,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
 
 import com.juziml.read.business.read.view.FPoint;
-import com.juziml.read.business.read.view.ReadAnimView;
+import com.juziml.read.business.read.view.PuppetView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * create by zhusw on 2020-08-24 14:06
  */
-public class SimulationAnimationEffect implements IAnimationEffect {
+public class SimulationAnimationEffecter implements IAnimationEffecter {
     private final static int DOWN_AREA_TOP_RIGHT = 1;
     private final static int DOWN_AREA_BOTTOM_RIGHT = 2;
     private final static int DOWN_AREA_LEFT = 3;
@@ -37,11 +37,11 @@ public class SimulationAnimationEffect implements IAnimationEffect {
 
     int vWidth = 1;
     int vHeight = 1;
-    private ReadAnimView readAnimView;
+    private final PuppetView readAnimView;
     private boolean isCancelFlip = false;
     private boolean curlAnimationRunning = false;
     private boolean isTouching = false;
-    private Scroller scroller;
+    private final Scroller scroller;
 
     Paint pointPaint;
 
@@ -56,19 +56,19 @@ public class SimulationAnimationEffect implements IAnimationEffect {
     FPoint g2, e2;
 
 
-    private float[] matrixArray = {0, 0, 0, 0, 0, 0, 0, 0, 1.0f};
-    private Matrix matrix = new Matrix();
+    private final float[] matrixArray = {0, 0, 0, 0, 0, 0, 0, 0, 1.0f};
+    private final Matrix matrix = new Matrix();
 
     float lPathAShadowDis = 0F;
     float rPathAShadowDis = 0F;
-    private RectF menuBounds = new RectF();
+    private final RectF menuBounds = new RectF();
 
-    private ColorMatrixColorFilter colorMatrixColorFilter;
+    private final ColorMatrixColorFilter colorMatrixColorFilter;
 
     private final ScrollRunnable scrollRunnable = new ScrollRunnable();
 
 
-    public SimulationAnimationEffect(ReadAnimView readAnimView) {
+    public SimulationAnimationEffecter(PuppetView readAnimView) {
         this.readAnimView = readAnimView;
         pointPaint = new Paint();
         pointPaint.setColor(Color.RED);
@@ -98,10 +98,7 @@ public class SimulationAnimationEffect implements IAnimationEffect {
         pathLeftShadow = new Path();
 
         ColorMatrix cm = new ColorMatrix();//设置颜色数组
-        float array[] = {1, 0, 0, 0, 0,
-                0, 1, 0, 0, 0,
-                0, 0, 1, 0, 0,
-                0, 0, 0, 1, 0};
+        float[] array = {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0};
         cm.set(array);
         colorMatrixColorFilter = new ColorMatrixColorFilter(cm);
         scroller = new Scroller(readAnimView.getContext(), new LinearInterpolator());
@@ -152,8 +149,7 @@ public class SimulationAnimationEffect implements IAnimationEffect {
                     downArea = DOWN_AREA_BOTTOM_RIGHT;
                 } else if (x > menuBounds.right) {
                     downArea = DOWN_AREA_CENTRE_RIGHT;
-                } else if (x > menuBounds.left && y > menuBounds.top
-                        && x < menuBounds.right && y < menuBounds.bottom) {
+                } else if (x > menuBounds.left && y > menuBounds.top && x < menuBounds.right && y < menuBounds.bottom) {
                     downArea = DOWN_AREA_MENU;
                 } else {
                     downArea = DOWN_AREA_NONE;
@@ -164,9 +160,7 @@ public class SimulationAnimationEffect implements IAnimationEffect {
                 if (checkDownArea(downArea)) {
                     float moveDistance = x - downX;
                     //滑动距离超过5px，且单次事件周期只设置一个方向，首次滑动距离大于5px时为方向判断依据
-                    if (downArea != DOWN_AREA_MENU
-                            && Math.abs(moveDistance) > AnimHelper.MOVE_SLOP
-                            && curlSlideDirection == AnimHelper.SLID_DIRECTION_UNKNOWN) {
+                    if (downArea != DOWN_AREA_MENU && Math.abs(moveDistance) > AnimHelper.MOVE_SLOP && curlSlideDirection == AnimHelper.SLID_DIRECTION_UNKNOWN) {
                         if (moveDistance > 0) {
                             curlSlideDirection = AnimHelper.SLID_DIRECTION_RIGHT;
                         } else {
@@ -177,8 +171,7 @@ public class SimulationAnimationEffect implements IAnimationEffect {
                         drawCurlAnimBefore = checkAnimCondition(curlSlideDirection, downArea);
                     }
                     if (drawCurlAnimBefore) {
-                        if (moveSampling.size() == 0
-                                || x != moveSampling.get(moveSampling.size() - 1)) {
+                        if (moveSampling.size() == 0 || x != moveSampling.get(moveSampling.size() - 1)) {
                             moveSampling.add(x);
                         }
                         if (moveSampling.size() > MAX_COUNT) {
@@ -210,8 +203,7 @@ public class SimulationAnimationEffect implements IAnimationEffect {
                         touchUp(false);
                     }
                 } else if (downArea == DOWN_AREA_MENU) {
-                    if (x > menuBounds.left && x < menuBounds.right
-                            && y > menuBounds.top && y < menuBounds.bottom) {
+                    if (x > menuBounds.left && x < menuBounds.right && y > menuBounds.top && y < menuBounds.bottom) {
                         readAnimView.onClickMenuArea();
                     }
                 } else if (downArea != DOWN_AREA_NONE) {
@@ -274,8 +266,7 @@ public class SimulationAnimationEffect implements IAnimationEffect {
         if (curlSlideDirection != AnimHelper.SLID_DIRECTION_LEFT && curlSlideDirection != AnimHelper.SLID_DIRECTION_RIGHT) {
             return;
         }
-        if (curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT
-                && (null == readAnimView.getCurrentBitmap() || null == readAnimView.getNextBitmap())) {
+        if (curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT && (null == readAnimView.getCurrentBitmap() || null == readAnimView.getNextBitmap())) {
             return;
         }
         if (curlSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT && null == readAnimView.getPreviousBitmap()) {
@@ -313,8 +304,7 @@ public class SimulationAnimationEffect implements IAnimationEffect {
         } else {
             dx = vWidth - ax;
         }
-        isCancelFlip = (curlSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT && lastFingerLeftSlop)
-                || (curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT && !lastFingerLeftSlop);
+        isCancelFlip = (curlSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT && lastFingerLeftSlop) || (curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT && !lastFingerLeftSlop);
 
         if (downArea == DOWN_AREA_TOP_RIGHT) {
             dy = -ay;
@@ -332,7 +322,7 @@ public class SimulationAnimationEffect implements IAnimationEffect {
     private int downArea = DOWN_AREA_NONE;
     private float downX = 0F;
     private int curlSlideDirection = AnimHelper.SLID_DIRECTION_UNKNOWN;
-    private List<Float> moveSampling = new LinkedList<>();
+    private final List<Float> moveSampling = new LinkedList<>();
     private final int MAX_COUNT = 5;
     private boolean drawCurlAnimBefore = false;
 
@@ -383,8 +373,7 @@ public class SimulationAnimationEffect implements IAnimationEffect {
     private void touchMove(float x, float y, int curlSlideDirection, boolean offset, boolean invalidate) {
         a.x = x;
         final float minGap = dpToPx(5F);
-        if (curlSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT
-                || (downArea == DOWN_AREA_LEFT || downArea == DOWN_AREA_CENTRE_RIGHT)) {
+        if (curlSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT || (downArea == DOWN_AREA_LEFT || downArea == DOWN_AREA_CENTRE_RIGHT)) {
             a.y = vHeight - minGap;
         } else {
             a.y = y;
@@ -698,6 +687,11 @@ public class SimulationAnimationEffect implements IAnimationEffect {
         return pathC;
     }
 
+    /**
+     * 仅用于确认点位时使用
+     *
+     * @param canvas
+     */
     private void drawPoint(Canvas canvas) {
         calcPointsXY(a, f);
         canvas.drawText("a", a.x, a.y, pointPaint);
@@ -769,10 +763,8 @@ public class SimulationAnimationEffect implements IAnimationEffect {
         x4 = lineTwo_My_pointTwo.x;
         y4 = lineTwo_My_pointTwo.y;
 
-        float pointX = ((x1 - x2) * (x3 * y4 - x4 * y3) - (x3 - x4) * (x1 * y2 - x2 * y1))
-                / ((x3 - x4) * (y1 - y2) - (x1 - x2) * (y3 - y4));
-        float pointY = ((y1 - y2) * (x3 * y4 - x4 * y3) - (x1 * y2 - x2 * y1) * (y3 - y4))
-                / ((y1 - y2) * (x3 - x4) - (x1 - x2) * (y3 - y4));
+        float pointX = ((x1 - x2) * (x3 * y4 - x4 * y3) - (x3 - x4) * (x1 * y2 - x2 * y1)) / ((x3 - x4) * (y1 - y2) - (x1 - x2) * (y3 - y4));
+        float pointY = ((y1 - y2) * (x3 * y4 - x4 * y3) - (x1 * y2 - x2 * y1) * (y3 - y4)) / ((y1 - y2) * (x3 - x4) - (x1 - x2) * (y3 - y4));
         save.setXY(pointX, pointY);
     }
 

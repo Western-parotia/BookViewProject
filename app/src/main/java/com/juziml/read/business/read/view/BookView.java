@@ -17,10 +17,10 @@ import com.juziml.read.business.read.anim.AnimHelper;
 /**
  * create by zhusw on 2020-08-14 17:33
  */
-public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
+public class BookView extends FrameLayout implements AnimParentView {
 
     private ReadRecyclerView readRecyclerView;
-    private ReadAnimView readAnimView;
+    private PuppetView puppetView;
     private final AnimHelper animHelper;
 
     private OnClickMenuListener onClickMenuListener;
@@ -28,15 +28,15 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
     private int itemViewBackgroundColor = Color.WHITE;
     private Runnable dataPendIntentTask;
 
-    public ReadViewGroup(@NonNull Context context) {
+    public BookView(@NonNull Context context) {
         this(context, null);
     }
 
-    public ReadViewGroup(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public BookView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ReadViewGroup(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public BookView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         animHelper = new AnimHelper();
         init();
@@ -45,23 +45,23 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
     private void init() {
         removeAllViews();
         readRecyclerView = new ReadRecyclerView(getContext());
-        readAnimView = new ReadAnimView(getContext());
-        readAnimView.setAnimMode(readRecyclerView.getFlipMode());
-        readRecyclerView.bindReadCurlAnimProxy(readAnimView);
+        puppetView = new PuppetView(getContext());
+        puppetView.setAnimMode(readRecyclerView.getFlipMode());
+        readRecyclerView.bindReadCurlAnimProxy(puppetView);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.CENTER;
         addView(readRecyclerView, params);
 
         LayoutParams params2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         params2.gravity = Gravity.CENTER;
-        addView(readAnimView, params2);
+        addView(puppetView, params2);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        readRecyclerView.bindReadCurlAnimProxy(readAnimView);
+        readRecyclerView.bindReadCurlAnimProxy(puppetView);
 
     }
 
@@ -140,12 +140,12 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
     public void setFlipMode(int flipMode) {
         if (flipMode == ReadLayoutManager.BookFlipMode.MODE_CURL
                 || flipMode == ReadLayoutManager.BookFlipMode.MODE_COVER) {
-            readAnimView.setVisibility(View.VISIBLE);
+            puppetView.setVisibility(View.VISIBLE);
         } else {
-            readAnimView.setVisibility(View.INVISIBLE);//不可以设置为gone，避免animView 无法获取尺寸
+            puppetView.setVisibility(View.INVISIBLE);//不可以设置为gone，避免animView 无法获取尺寸
         }
         readRecyclerView.setFlipMode(flipMode);
-        readAnimView.setAnimMode(flipMode);
+        puppetView.setAnimMode(flipMode);
 
     }
 
@@ -178,7 +178,7 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
     }
 
     public boolean checkAllowChangeData() {
-        return !readAnimView.animRunningOrTouching()
+        return !puppetView.animRunningOrTouching()
                 || readRecyclerView.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_NORMAL;
     }
 

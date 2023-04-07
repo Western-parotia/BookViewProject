@@ -12,34 +12,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.juziml.read.business.read.anim.AnimHelper;
-import com.juziml.read.business.read.anim.CoverAnimationEffect;
-import com.juziml.read.business.read.anim.IAnimationEffect;
-import com.juziml.read.business.read.anim.ReadCurlAnimProxy;
-import com.juziml.read.business.read.anim.SimulationAnimationEffect;
+import com.juziml.read.business.read.anim.CoverAnimationEffecter;
+import com.juziml.read.business.read.anim.IAnimationEffecter;
+import com.juziml.read.business.read.anim.SimulationAnimationEffecter;
 
 
 /**
+ * 此View的作用就像幕后一样，负责接受事件并传递到动画，Effecter
  * create by zhusw on 2020-08-14 17:37
  */
-public class ReadAnimView extends View implements ReadCurlAnimProxy, CurlAnimParentView {
+public class PuppetView extends View implements EventProxy, AnimParentView {
 
-    IAnimationEffect animationEffect;
-    CurlAnimParentView parentView;
+    IAnimationEffecter animationEffect;
+    AnimParentView parentView;
     private Bitmap previousViewBitmap;
     private Bitmap currentViewBitmap;
     private Bitmap nextViewBitmap;
     boolean performDrawCurlTexture = false;
     private int vWidth, vHeight;
 
-    public ReadAnimView(@NonNull Context context) {
+    public PuppetView(@NonNull Context context) {
         this(context, null);
     }
 
-    public ReadAnimView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public PuppetView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ReadAnimView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PuppetView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         /*
             view 可以单独关，但是不能单独打开硬件加速
@@ -62,7 +62,7 @@ public class ReadAnimView extends View implements ReadCurlAnimProxy, CurlAnimPar
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         ViewParent viewParent = getParent();
-        parentView = (CurlAnimParentView) viewParent;
+        parentView = (AnimParentView) viewParent;
         if (null != animationEffect) {
             animationEffect.onViewAttachedToWindow();
         }
@@ -73,9 +73,9 @@ public class ReadAnimView extends View implements ReadCurlAnimProxy, CurlAnimPar
         //重置某些属性 与变量
         animationEffect = null;
         if (animMode == ReadLayoutManager.BookFlipMode.MODE_COVER) {
-            animationEffect = new CoverAnimationEffect(this);
+            animationEffect = new CoverAnimationEffecter(this);
         } else if (animMode == ReadLayoutManager.BookFlipMode.MODE_CURL) {
-            animationEffect = new SimulationAnimationEffect(this);
+            animationEffect = new SimulationAnimationEffecter(this);
         }
         if (null != animationEffect) {
             animationEffect.onViewSizeChanged(vWidth, vHeight);

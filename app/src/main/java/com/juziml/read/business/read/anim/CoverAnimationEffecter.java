@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Scroller;
 
-import com.juziml.read.business.read.view.ReadAnimView;
+import com.juziml.read.business.read.view.PuppetView;
 import com.juziml.read.utils.DLog;
 
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * create by zhusw on 2020-08-24 14:06
  */
-public class CoverAnimationEffect implements IAnimationEffect {
+public class CoverAnimationEffecter implements IAnimationEffecter {
     private final static int DOWN_AREA_NONE = -1;
     private final static int DOWN_AREA_MENU = 1;
     private final static int DOWN_AREA_LEFT = 2;
@@ -26,7 +26,7 @@ public class CoverAnimationEffect implements IAnimationEffect {
 
     int vWidth = 1;
     int vHeight = 1;
-    private final ReadAnimView readAnimView;
+    private final PuppetView readAnimView;
 
     private boolean isCancelFlip = false;
 
@@ -43,7 +43,7 @@ public class CoverAnimationEffect implements IAnimationEffect {
     private final Paint paint;
     private final int shadowWidth;
 
-    public CoverAnimationEffect(ReadAnimView readAnimView) {
+    public CoverAnimationEffecter(PuppetView readAnimView) {
         this.readAnimView = readAnimView;
         scroller = new Scroller(readAnimView.getContext(), new AccelerateDecelerateInterpolator());
         scrollRunnable = new ScrollRunnable();

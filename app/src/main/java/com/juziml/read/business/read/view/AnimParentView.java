@@ -7,7 +7,7 @@ import com.juziml.read.business.read.anim.AnimHelper;
 /**
  * create by zhusw on 2020-08-03 11:28
  */
-public interface CurlAnimParentView {
+public interface AnimParentView {
     void onExpectNext();
 
     void onExpectPrevious();

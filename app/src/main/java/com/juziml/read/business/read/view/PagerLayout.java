@@ -1,35 +1,37 @@
 package com.juziml.read.business.read.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
- * - 必须开启硬件加速，否则掉帧
+ * 作为根布局使用，最好再填充一个ViewGroup并设置match_parent
+ * 必须开启硬件加速，否则掉帧
  * create by zhusw on 2020-07-28 16:00
  */
-public class ReadAnimViewGroup extends LinearLayout {
-    private Canvas viewScreenShotCanvas;
+public class PagerLayout extends FrameLayout {
+    private final Canvas viewScreenShotCanvas;
 
     private ReadRecyclerView recyclerViewV2;
-    private RectF menuBounds;
+    private final RectF menuBounds;
 
-    public ReadAnimViewGroup(@NonNull Context context) {
+    public PagerLayout(@NonNull Context context) {
         this(context, null);
     }
 
-    public ReadAnimViewGroup(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public PagerLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ReadAnimViewGroup(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PagerLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         viewScreenShotCanvas = new Canvas();
         menuBounds = new RectF();
@@ -122,6 +124,7 @@ public class ReadAnimViewGroup extends LinearLayout {
     private float downX = -1;
     private float downY = -1;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {

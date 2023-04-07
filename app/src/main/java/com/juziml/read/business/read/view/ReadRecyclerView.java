@@ -1,5 +1,6 @@
 package com.juziml.read.business.read.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
@@ -9,28 +10,25 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.juziml.read.business.read.anim.ReadCurlAnimProxy;
-
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 import java.util.List;
 
 
 /**
- * @Desc: -
  * -关闭抛投效果
  * create by zhusw on 2020-03-30 11:51
  */
 public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunction, RVOuterFunction {
 
-    private ReadLayoutManager readLayoutManger;
+    private final ReadLayoutManager readLayoutManger;
 
     private boolean allowInterceptTouchEvent = true;
 
     private int currentPosition = 0;
-    private WeakReference<ReadCurlAnimProxy> readCurlAnimProxyWeakReference;
-    private CurlAnimParentView curlAnimParentView;
-    private ReadViewGroup.OnPositionChangedListener onPositionChangedListener;
+    private WeakReference<EventProxy> eventProxyWeakReference;
+    private AnimParentView animParentView;
+    private BookView.OnPositionChangedListener onPositionChangedListener;
 
     public ReadRecyclerView(Context context) {
         this(context, null);
@@ -51,24 +49,24 @@ public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunctio
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        curlAnimParentView = (CurlAnimParentView) getParent();
+        animParentView = (AnimParentView) getParent();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        readCurlAnimProxyWeakReference.clear();
+        eventProxyWeakReference.clear();
     }
 
-    protected void bindReadCurlAnimProxy(ReadCurlAnimProxy ic) {
-        if (null != readCurlAnimProxyWeakReference) {
-            readCurlAnimProxyWeakReference.clear();
+    protected void bindReadCurlAnimProxy(EventProxy ic) {
+        if (null != eventProxyWeakReference) {
+            eventProxyWeakReference.clear();
         }
-        readCurlAnimProxyWeakReference = new WeakReference<>(ic);
+        eventProxyWeakReference = new WeakReference<>(ic);
     }
 
 
-    protected void setOnPositionChangedListener(ReadViewGroup.OnPositionChangedListener onPositionChangedListener) {
+    protected void setOnPositionChangedListener(BookView.OnPositionChangedListener onPositionChangedListener) {
         this.onPositionChangedListener = onPositionChangedListener;
     }
 
@@ -109,6 +107,7 @@ public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunctio
 
     private float downX = 0F;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         if (!allowInterceptTouchEvent) return false;//[偶现 动画期间 产生了item滑动，这里最后杀手锏再屏蔽下]
@@ -207,22 +206,22 @@ public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunctio
 
     @Override
     public void onItemViewTouchEvent(MotionEvent event) {
-        if (null != readCurlAnimProxyWeakReference && null != readCurlAnimProxyWeakReference.get()) {
-            readCurlAnimProxyWeakReference.get().onItemViewTouchEvent(event);
+        if (null != eventProxyWeakReference && null != eventProxyWeakReference.get()) {
+            eventProxyWeakReference.get().onItemViewTouchEvent(event);
         }
     }
 
     @Override
     public boolean animRunning() {
-        if (null != readCurlAnimProxyWeakReference && null != readCurlAnimProxyWeakReference.get()) {
-            readCurlAnimProxyWeakReference.get().animRunning();
+        if (null != eventProxyWeakReference && null != eventProxyWeakReference.get()) {
+            eventProxyWeakReference.get().animRunning();
         }
         return false;
     }
 
     @Override
     public void onClickMenu() {
-        curlAnimParentView.onClickMenuArea();
+        animParentView.onClickMenuArea();
     }
 
     private class ItemOnScrollStop implements ReadLayoutManager.OnStopScroller {
@@ -284,8 +283,8 @@ public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunctio
     private Bitmap printViewToBitmap(int pos) {
         View view = readLayoutManger.findViewByPosition(pos);
         if (null != view) {
-            if (view instanceof ReadAnimViewGroup) {
-                ReadAnimViewGroup pageView = (ReadAnimViewGroup) view;
+            if (view instanceof PagerLayout) {
+                PagerLayout pageView = (PagerLayout) view;
                 Bitmap bitmapTarget = Bitmap.createBitmap(pageView.getWidth(), pageView.getHeight(), Bitmap.Config.ARGB_4444);
                 pageView.drawViewScreenShotToBitmap(bitmapTarget);
                 return bitmapTarget;

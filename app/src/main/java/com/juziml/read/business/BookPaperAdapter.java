@@ -3,18 +3,18 @@ package com.juziml.read.business;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.juziml.read.R;
-import com.juziml.read.business.read.view.ReadViewGroup;
+import com.juziml.read.business.read.view.BookView;
 
 /**
  * @Desc: -
  * create by zhusw on 2020-03-27 14:54
  */
-public class ReadAdapter extends BaseQuickAdapter<BookMockData, BaseViewHolder> {
+public class BookPaperAdapter extends BaseQuickAdapter<BookMockData, BaseViewHolder> {
 
     private int bgRes;
-    private ReadViewGroup readViewGroup;
+    private BookView bookView;
 
-    public ReadAdapter() {
+    public BookPaperAdapter() {
         super(R.layout.item_read, null);
         bgRes = R.color.colorPrimaryDark;
     }
@@ -23,8 +23,8 @@ public class ReadAdapter extends BaseQuickAdapter<BookMockData, BaseViewHolder> 
         this.bgRes = bgRes;
     }
 
-    public void setReadRecyclerViewV2(ReadViewGroup readViewGroup) {
-        this.readViewGroup = readViewGroup;
+    public void setReadRecyclerViewV2(BookView bookView) {
+        this.bookView = bookView;
     }
 
     @Override

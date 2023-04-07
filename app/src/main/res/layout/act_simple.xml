@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.juziml.read.business.read.view.ReadViewGroup
+    <com.juziml.read.business.read.view.BookView
         android:id="@+id/ar2dc_readViewGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
