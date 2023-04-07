@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
  * 必须开启硬件加速，否则掉帧
  * create by zhusw on 2020-07-28 16:00
  */
-public class PagerLayout extends FrameLayout {
+public class PagerLayout extends LinearLayout {
     private final Canvas viewScreenShotCanvas;
 
     private ReadRecyclerView readRecyclerView;
