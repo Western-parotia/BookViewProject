@@ -1,4 +1,4 @@
-package com.juziml.read.business.read;
+package com.juziml.read.business.read.anim;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -16,6 +16,9 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
+
+import com.juziml.read.business.read.view.FPoint;
+import com.juziml.read.business.read.view.ReadAnimView;
 
 import java.util.LinkedList;
 import java.util.List;

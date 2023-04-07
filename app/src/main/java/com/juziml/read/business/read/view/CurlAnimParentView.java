@@ -1,6 +1,8 @@
-package com.juziml.read.business.read;
+package com.juziml.read.business.read.view;
 
 import android.graphics.Bitmap;
+
+import com.juziml.read.business.read.anim.AnimHelper;
 
 /**
  * create by zhusw on 2020-08-03 11:28

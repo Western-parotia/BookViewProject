@@ -1,4 +1,4 @@
-package com.juziml.read.business.read;
+package com.juziml.read.business.read.view;
 
 import android.view.MotionEvent;
 

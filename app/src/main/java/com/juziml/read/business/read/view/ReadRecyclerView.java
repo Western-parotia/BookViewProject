@@ -1,4 +1,4 @@
-package com.juziml.read.business.read;
+package com.juziml.read.business.read.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,6 +8,8 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.juziml.read.business.read.anim.ReadCurlAnimProxy;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
@@ -19,9 +21,9 @@ import java.util.List;
  * -关闭抛投效果
  * create by zhusw on 2020-03-30 11:51
  */
-public class ReadRecyclerViewV2 extends RecyclerView implements RVInnerItemFunction, RVOuterFunction {
+public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunction, RVOuterFunction {
 
-    private ReadLayoutManagerV2 readLayoutManger;
+    private ReadLayoutManager readLayoutManger;
 
     private boolean allowInterceptTouchEvent = true;
 
@@ -30,17 +32,17 @@ public class ReadRecyclerViewV2 extends RecyclerView implements RVInnerItemFunct
     private CurlAnimParentView curlAnimParentView;
     private ReadViewGroup.OnPositionChangedListener onPositionChangedListener;
 
-    public ReadRecyclerViewV2(Context context) {
+    public ReadRecyclerView(Context context) {
         this(context, null);
     }
 
-    public ReadRecyclerViewV2(Context context, @Nullable AttributeSet attrs) {
+    public ReadRecyclerView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ReadRecyclerViewV2(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public ReadRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        readLayoutManger = new ReadLayoutManagerV2(context);
+        readLayoutManger = new ReadLayoutManager(context);
         setLayoutManager(readLayoutManger);
         readLayoutManger.setOnForceLayoutCompleted(new ItemOnForceLayoutCompleted());
         readLayoutManger.setonStopScroller(new ItemOnScrollStop());
@@ -189,8 +191,8 @@ public class ReadRecyclerViewV2 extends RecyclerView implements RVInnerItemFunct
 
     protected void setFlipMode(int flipMode) {
         readLayoutManger.setBookFlipMode(flipMode);
-        if (flipMode == ReadLayoutManagerV2.BookFlipMode.MODE_CURL
-                || flipMode == ReadLayoutManagerV2.BookFlipMode.MODE_COVER) {
+        if (flipMode == ReadLayoutManager.BookFlipMode.MODE_CURL
+                || flipMode == ReadLayoutManager.BookFlipMode.MODE_COVER) {
             allowInterceptTouchEvent = false;
         } else {
             allowInterceptTouchEvent = true;
@@ -223,7 +225,7 @@ public class ReadRecyclerViewV2 extends RecyclerView implements RVInnerItemFunct
         curlAnimParentView.onClickMenuArea();
     }
 
-    private class ItemOnScrollStop implements ReadLayoutManagerV2.OnStopScroller {
+    private class ItemOnScrollStop implements ReadLayoutManager.OnStopScroller {
         @Override
         public void onStop(boolean autoLeftScroll, int curPos) {
             boolean arriveNext = currentPosition < curPos;
@@ -235,7 +237,7 @@ public class ReadRecyclerViewV2 extends RecyclerView implements RVInnerItemFunct
 
     }
 
-    private class ItemOnForceLayoutCompleted implements ReadLayoutManagerV2.OnForceLayoutCompleted {
+    private class ItemOnForceLayoutCompleted implements ReadLayoutManager.OnForceLayoutCompleted {
 
         @Override
         public void onLayoutCompleted(final int curPos) {
@@ -282,8 +284,8 @@ public class ReadRecyclerViewV2 extends RecyclerView implements RVInnerItemFunct
     private Bitmap printViewToBitmap(int pos) {
         View view = readLayoutManger.findViewByPosition(pos);
         if (null != view) {
-            if (view instanceof Curl2dAnimViewGroup) {
-                Curl2dAnimViewGroup pageView = (Curl2dAnimViewGroup) view;
+            if (view instanceof ReadAnimViewGroup) {
+                ReadAnimViewGroup pageView = (ReadAnimViewGroup) view;
                 Bitmap bitmapTarget = Bitmap.createBitmap(pageView.getWidth(), pageView.getHeight(), Bitmap.Config.ARGB_4444);
                 pageView.drawViewScreenShotToBitmap(bitmapTarget);
                 return bitmapTarget;

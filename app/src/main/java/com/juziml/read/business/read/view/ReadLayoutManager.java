@@ -1,4 +1,4 @@
-package com.juziml.read.business.read;
+package com.juziml.read.business.read.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * create by zhusw on 2020-03-29 17:11
  */
-public class ReadLayoutManagerV2 extends RecyclerView.LayoutManager {
+public class ReadLayoutManager extends RecyclerView.LayoutManager {
     private int bookFlipMode = BookFlipMode.MODE_CURL;
 
     private Context context;
@@ -58,7 +58,7 @@ public class ReadLayoutManagerV2 extends RecyclerView.LayoutManager {
     private OnStopScroller onStopScroller;
     private OnForceLayoutCompleted onForceLayoutCompleted;
 
-    public ReadLayoutManagerV2(Context context) {
+    public ReadLayoutManager(Context context) {
         this.context = context;
     }
 
@@ -147,7 +147,7 @@ public class ReadLayoutManagerV2 extends RecyclerView.LayoutManager {
     }
 
     /**
-     * 强制
+     * 强制滚动到指定位置
      *
      * @param position
      */
@@ -175,7 +175,7 @@ public class ReadLayoutManagerV2 extends RecyclerView.LayoutManager {
         int position;
         if (autoLeftScroll) {
             position = (int) (Math.abs(horizontalOffset) / childWidth);
-            int remainder = (int) (Math.abs(horizontalOffset) % childWidth);
+//            int remainder = (int) (Math.abs(horizontalOffset) % childWidth);
             // 超过临界距离 选中下一页，108 为 1/10的 1080 屏幕
             //固定临界值，避免屏幕越大需要滑动的距离越远
 //            if (remainder >= ReadRecyclerView.MOVE_LEFT_MIN) {

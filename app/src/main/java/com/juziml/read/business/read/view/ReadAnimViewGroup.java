@@ -1,4 +1,4 @@
-package com.juziml.read.business.read;
+package com.juziml.read.business.read.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,21 +15,21 @@ import androidx.annotation.Nullable;
  * - 必须开启硬件加速，否则掉帧
  * create by zhusw on 2020-07-28 16:00
  */
-public class Curl2dAnimViewGroup extends LinearLayout {
+public class ReadAnimViewGroup extends LinearLayout {
     private Canvas viewScreenShotCanvas;
 
-    private ReadRecyclerViewV2 recyclerViewV2;
+    private ReadRecyclerView recyclerViewV2;
     private RectF menuBounds;
 
-    public Curl2dAnimViewGroup(@NonNull Context context) {
+    public ReadAnimViewGroup(@NonNull Context context) {
         this(context, null);
     }
 
-    public Curl2dAnimViewGroup(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ReadAnimViewGroup(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public Curl2dAnimViewGroup(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ReadAnimViewGroup(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         viewScreenShotCanvas = new Canvas();
         menuBounds = new RectF();
@@ -38,15 +38,15 @@ public class Curl2dAnimViewGroup extends LinearLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        recyclerViewV2 = (ReadRecyclerViewV2) getParent();
+        recyclerViewV2 = (ReadRecyclerView) getParent();
 
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if (recyclerViewV2.getFlipMode() == ReadLayoutManagerV2.BookFlipMode.MODE_CURL
-                || recyclerViewV2.getFlipMode() == ReadLayoutManagerV2.BookFlipMode.MODE_COVER) {
+        if (recyclerViewV2.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_CURL
+                || recyclerViewV2.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_COVER) {
             requestDisallowInterceptTouchEvent(true);
         } else {
             requestDisallowInterceptTouchEvent(false);
@@ -136,7 +136,7 @@ public class Curl2dAnimViewGroup extends LinearLayout {
         } else if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
             receiveDownX = -1;
         }
-        if (recyclerViewV2.getFlipMode() == ReadLayoutManagerV2.BookFlipMode.MODE_NORMAL) {
+        if (recyclerViewV2.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_NORMAL) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 float upX = ev.getRawX();
                 float upY = ev.getRawY();

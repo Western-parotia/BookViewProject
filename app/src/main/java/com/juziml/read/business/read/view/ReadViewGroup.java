@@ -1,4 +1,4 @@
-package com.juziml.read.business.read;
+package com.juziml.read.business.read.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,12 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.juziml.read.business.read.anim.AnimHelper;
+
 /**
  * create by zhusw on 2020-08-14 17:33
  */
 public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
 
-    private ReadRecyclerViewV2 readRecyclerViewV2;
+    private ReadRecyclerView readRecyclerViewV2;
     private ReadAnimView readAnimView;
     private AnimHelper animHelper;
 
@@ -42,7 +44,7 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
 
     private void init() {
         removeAllViews();
-        readRecyclerViewV2 = new ReadRecyclerViewV2(getContext());
+        readRecyclerViewV2 = new ReadRecyclerView(getContext());
         readAnimView = new ReadAnimView(getContext());
         readAnimView.setAnimMode(readRecyclerViewV2.getFlipMode());
         readRecyclerViewV2.bindReadCurlAnimProxy(readAnimView);
@@ -136,8 +138,8 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
 
 
     public void setFlipMode(int flipMode) {
-        if (flipMode == ReadLayoutManagerV2.BookFlipMode.MODE_CURL
-                || flipMode == ReadLayoutManagerV2.BookFlipMode.MODE_COVER) {
+        if (flipMode == ReadLayoutManager.BookFlipMode.MODE_CURL
+                || flipMode == ReadLayoutManager.BookFlipMode.MODE_COVER) {
             readAnimView.setVisibility(View.VISIBLE);
         } else {
             readAnimView.setVisibility(View.INVISIBLE);//不可以设置为gone，避免animView 无法获取尺寸
@@ -177,7 +179,7 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
 
     public boolean checkAllowChangeData() {
         return !readAnimView.animRunningOrTouching()
-                || readRecyclerViewV2.getFlipMode() == ReadLayoutManagerV2.BookFlipMode.MODE_NORMAL;
+                || readRecyclerViewV2.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_NORMAL;
     }
 
     /**

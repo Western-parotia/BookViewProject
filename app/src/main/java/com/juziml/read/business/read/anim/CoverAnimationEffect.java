@@ -1,4 +1,4 @@
-package com.juziml.read.business.read;
+package com.juziml.read.business.read.anim;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -8,6 +8,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.MotionEvent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Scroller;
+
+import com.juziml.read.business.read.view.ReadAnimView;
+import com.juziml.read.utils.DLog;
 
 import java.util.LinkedList;
 import java.util.List;

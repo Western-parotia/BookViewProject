@@ -1,20 +1,21 @@
-package com.juziml.read.business.read;
+package com.juziml.read.business;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.juziml.read.R;
+import com.juziml.read.business.read.view.ReadViewGroup;
 
 /**
  * @Desc: -
  * create by zhusw on 2020-03-27 14:54
  */
-public class AdapterV2 extends BaseQuickAdapter<BookInfo, BaseViewHolder> {
+public class ReadAdapter extends BaseQuickAdapter<BookMockData, BaseViewHolder> {
 
     private int bgRes;
     private ReadViewGroup readViewGroup;
 
-    public AdapterV2() {
-        super(R.layout.item_read2d, null);
+    public ReadAdapter() {
+        super(R.layout.item_read, null);
         bgRes = R.color.colorPrimaryDark;
     }
 
@@ -27,7 +28,7 @@ public class AdapterV2 extends BaseQuickAdapter<BookInfo, BaseViewHolder> {
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, BookInfo item) {
+    protected void convert(BaseViewHolder helper, BookMockData item) {
         helper.setText(R.id.ir2d_tv_content, item.content);
         helper.setText(R.id.ir2d_tv_content2, item.content);
         helper.setText(R.id.ir2d_tv_position, helper.getLayoutPosition() + "");

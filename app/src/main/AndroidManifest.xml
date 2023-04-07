@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory,android:allowBackup">
         <activity
-            android:name=".business.read.RecyclerViewWithV2CurlAct"
+            android:name=".business.SimpleActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/startup_window">

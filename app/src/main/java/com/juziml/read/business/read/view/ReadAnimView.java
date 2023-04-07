@@ -1,4 +1,4 @@
-package com.juziml.read.business.read;
+package com.juziml.read.business.read.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,6 +10,12 @@ import android.view.ViewParent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.juziml.read.business.read.anim.AnimHelper;
+import com.juziml.read.business.read.anim.CoverAnimationEffect;
+import com.juziml.read.business.read.anim.IAnimationEffect;
+import com.juziml.read.business.read.anim.ReadCurlAnimProxy;
+import com.juziml.read.business.read.anim.SimulationAnimationEffect;
 
 
 /**
@@ -66,9 +72,9 @@ public class ReadAnimView extends View implements ReadCurlAnimProxy, CurlAnimPar
     public void setAnimMode(int animMode) {
         //重置某些属性 与变量
         animationEffect = null;
-        if (animMode == ReadLayoutManagerV2.BookFlipMode.MODE_COVER) {
+        if (animMode == ReadLayoutManager.BookFlipMode.MODE_COVER) {
             animationEffect = new CoverAnimationEffect(this);
-        } else if (animMode == ReadLayoutManagerV2.BookFlipMode.MODE_CURL) {
+        } else if (animMode == ReadLayoutManager.BookFlipMode.MODE_CURL) {
             animationEffect = new SimulationAnimationEffect(this);
         }
         if (null != animationEffect) {
@@ -128,7 +134,7 @@ public class ReadAnimView extends View implements ReadCurlAnimProxy, CurlAnimPar
     }
 
 
-    protected void buildBitmap(int slideDirection) {
+    public void buildBitmap(int slideDirection) {
         performDrawCurlTexture = false;
         if (slideDirection == AnimHelper.SLID_DIRECTION_LEFT) {
             currentViewBitmap = parentView.getCurrentBitmap();
@@ -215,7 +221,7 @@ public class ReadAnimView extends View implements ReadCurlAnimProxy, CurlAnimPar
         parentView.onClickPreviousArea();
     }
 
-    protected void reset() {
+    public void reset() {
         previousViewBitmap = null;
         nextViewBitmap = null;
         currentViewBitmap = null;
