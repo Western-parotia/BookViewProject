@@ -92,6 +92,7 @@ object Dependencies {
          * Material 样式库，包含对应的view widget 与 style
          */
         const val material = "com.google.android.material:material:1.3.0"
+
     }
 
     object OpenSourceLibrary {
@@ -155,6 +156,8 @@ object Dependencies {
         const val swipeLayout = "com.daimajia.swipelayout:library:1.2.0@aar"
 
         const val unpeekLiveData = "com.kunminx.arch:unpeek-livedata:6.1.0-beta1"
+        const val chadAdapter = "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30"
+        const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
     }
 
     object Chucker {

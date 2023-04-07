@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.juziml.read.business.read.ReadViewGroup
+        android:id="@+id/ar2dc_readViewGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:id="@+id/ar2dc_btn_normal"
+            android:text="无" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:id="@+id/ar2dc_btn_curl"
+            android:text="卷曲" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:id="@+id/ar2dc_btn_cover"
+            android:text="覆盖" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:id="@+id/ar2dc_btn_previous"
+            android:text="上" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:id="@+id/ar2dc_btn_next"
+            android:text="下" />
+    </LinearLayout>
+</FrameLayout>

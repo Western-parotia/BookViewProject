@@ -20,6 +20,12 @@
     <color name="color_999999">#999999</color>
     <color name="color_f0f0f0">#f0f0f0</color>
     <color name="color_shadow_line">#aa305C79</color>
+
+    <color name="read_bg_color_white">#FFF</color>
+    <color name="read_bg_color_blue">#00aaff</color>
+
+    <color name="read_txt">#412903</color>
+    <color name="read_bg">#ead0ae</color>
 </resources>
 
 

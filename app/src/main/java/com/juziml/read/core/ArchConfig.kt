@@ -4,8 +4,6 @@ import android.app.Application
 import android.content.ContentProvider
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.os.Build
-import com.foundation.widget.loading.GlobalLoadingConfig
 import com.juziml.read.BuildConfig
 
 /**
@@ -31,7 +29,6 @@ object ArchConfig {
 
     @JvmStatic
     fun initApplicationOnCreate() {
-        GlobalLoadingConfig.onInitForegroundColor = 0xffffffff.toInt()
     }
 
     /**
@@ -39,21 +36,6 @@ object ArchConfig {
      */
     @JvmField
     val debug: Boolean = BuildConfig.DEBUG
-
-    /**
-     * app的版本号
-     */
-    private fun getHostVersionCode(): Long {
-        val pm: PackageManager = app.packageManager
-        val pi: PackageInfo = pm.getPackageInfo(
-            app.packageName, 0
-        )
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            pi.longVersionCode
-        } else {
-            pi.versionCode.toLong()
-        }
-    }
 
     private fun getHostVersionName(): String {
         return try {
