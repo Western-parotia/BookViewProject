@@ -283,8 +283,8 @@ public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunctio
     private Bitmap printViewToBitmap(int pos) {
         View view = readLayoutManger.findViewByPosition(pos);
         if (null != view) {
-            if (view instanceof PagerLayout) {
-                PagerLayout pageView = (PagerLayout) view;
+            if (view instanceof PaperLayout) {
+                PaperLayout pageView = (PaperLayout) view;
                 Bitmap bitmapTarget = Bitmap.createBitmap(pageView.getWidth(), pageView.getHeight(), Bitmap.Config.ARGB_4444);
                 pageView.drawViewScreenShotToBitmap(bitmapTarget);
                 return bitmapTarget;

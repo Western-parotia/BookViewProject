@@ -17,21 +17,21 @@ import androidx.annotation.Nullable;
  * 必须开启硬件加速，否则掉帧
  * create by zhusw on 2020-07-28 16:00
  */
-public class PagerLayout extends LinearLayout {
+public class PaperLayout extends LinearLayout {
     private final Canvas viewScreenShotCanvas;
 
     private ReadRecyclerView readRecyclerView;
     private final RectF menuBounds;
 
-    public PagerLayout(@NonNull Context context) {
+    public PaperLayout(@NonNull Context context) {
         this(context, null);
     }
 
-    public PagerLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public PaperLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PagerLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PaperLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         viewScreenShotCanvas = new Canvas();
         menuBounds = new RectF();
