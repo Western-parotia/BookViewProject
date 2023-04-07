@@ -19,17 +19,9 @@ object Repositories {
     internal const val aliyunReleaseAndArtifacts =
         "https://packages.aliyun.com/maven/repository/2196753-release-jjUEtd/"
 
-
     //公共账号密码，只可用于拉取
     private const val aliyunMjDefName = "642b9f209f62bf75b33fc1ae"
     private const val aliyunMjDefPassword = "EkNR7ao]bCHh"
-
-    internal const val codingMjMaven =
-        "https://mijukeji-maven.pkg.coding.net/repository/jileiku/base_maven/"
-
-    //公共账号密码，只可用于拉取
-    private const val codingMjDefName = "base_maven-1648105141034"
-    private const val codingMjDefPassword = "491ab3340c82a564061c505a8afd99e16d1305b5"
 
     /**
      * 默认的需要拉的库
@@ -50,14 +42,8 @@ object Repositories {
                 aliyunMjDefName,
                 aliyunMjDefPassword
             )
-            mavenPassword(
-                codingMjMaven,
-                codingMjDefName,
-                codingMjDefPassword
-            )
             maven(huawei)
             mavenLocal()
-
 //            可能会影响下载速度，如果需要可以单独放开
 //            mavenCentral()
 //            google()
