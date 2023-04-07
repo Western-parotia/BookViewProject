@@ -19,7 +19,7 @@ import com.juziml.read.business.read.anim.AnimHelper;
  */
 public class BookView extends FrameLayout implements AnimParentView {
 
-    private ReadRecyclerView readRecyclerView;
+    private BookRecyclerView bookRecyclerView;
     private PuppetView puppetView;
     private final AnimHelper animHelper;
 
@@ -44,13 +44,13 @@ public class BookView extends FrameLayout implements AnimParentView {
 
     private void init() {
         removeAllViews();
-        readRecyclerView = new ReadRecyclerView(getContext());
+        bookRecyclerView = new BookRecyclerView(getContext());
         puppetView = new PuppetView(getContext());
-        puppetView.setAnimMode(readRecyclerView.getFlipMode());
-        readRecyclerView.bindReadCurlAnimProxy(puppetView);
+        puppetView.setAnimMode(bookRecyclerView.getFlipMode());
+        bookRecyclerView.bindReadCurlAnimProxy(puppetView);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.CENTER;
-        addView(readRecyclerView, params);
+        addView(bookRecyclerView, params);
 
         LayoutParams params2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         params2.gravity = Gravity.CENTER;
@@ -61,12 +61,12 @@ public class BookView extends FrameLayout implements AnimParentView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        readRecyclerView.bindReadCurlAnimProxy(puppetView);
+        bookRecyclerView.bindReadCurlAnimProxy(puppetView);
 
     }
 
     public void setOnPositionChangedListener(OnPositionChangedListener onPositionChangedListener) {
-        readRecyclerView.setOnPositionChangedListener(onPositionChangedListener);
+        bookRecyclerView.setOnPositionChangedListener(onPositionChangedListener);
 
     }
 
@@ -75,15 +75,15 @@ public class BookView extends FrameLayout implements AnimParentView {
     }
 
     public void scrollToPosition(int position) {
-        readRecyclerView.scrollToPosition(position);
+        bookRecyclerView.scrollToPosition(position);
     }
 
     public void smoothScrollToPosition(int position) {
-        readRecyclerView.smoothScrollToPosition(position);
+        bookRecyclerView.smoothScrollToPosition(position);
     }
 
     public void setAdapter(RecyclerView.Adapter adapter) {
-        readRecyclerView.setAdapter(adapter);
+        bookRecyclerView.setAdapter(adapter);
     }
 
     public void setItemViewBackgroundColor(int itemViewBackgroundColor) {
@@ -94,41 +94,41 @@ public class BookView extends FrameLayout implements AnimParentView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (null != dataPendIntentTask) {
-            readRecyclerView.removeCallbacks(dataPendIntentTask);
+            bookRecyclerView.removeCallbacks(dataPendIntentTask);
         }
     }
 
     @Override
     public void onExpectNext() {
-        readRecyclerView.onExpectNext(false);
+        bookRecyclerView.onExpectNext(false);
         if (null != dataPendIntentTask) {
-            readRecyclerView.post(dataPendIntentTask);
+            bookRecyclerView.post(dataPendIntentTask);
             dataPendIntentTask = null;
         }
     }
 
     @Override
     public void onExpectPrevious() {
-        readRecyclerView.onExpectPrevious(false);
+        bookRecyclerView.onExpectPrevious(false);
         if (null != dataPendIntentTask) {
-            readRecyclerView.post(dataPendIntentTask);
+            bookRecyclerView.post(dataPendIntentTask);
             dataPendIntentTask = null;
         }
     }
 
     @Override
     public Bitmap getPreviousBitmap() {
-        return readRecyclerView.getPreviousBitmap();
+        return bookRecyclerView.getPreviousBitmap();
     }
 
     @Override
     public Bitmap getCurrentBitmap() {
-        return readRecyclerView.getCurrentBitmap();
+        return bookRecyclerView.getCurrentBitmap();
     }
 
     @Override
     public Bitmap getNextBitmap() {
-        return readRecyclerView.getNextBitmap();
+        return bookRecyclerView.getNextBitmap();
     }
 
     @Override
@@ -138,13 +138,13 @@ public class BookView extends FrameLayout implements AnimParentView {
 
 
     public void setFlipMode(int flipMode) {
-        if (flipMode == ReadLayoutManager.BookFlipMode.MODE_CURL
-                || flipMode == ReadLayoutManager.BookFlipMode.MODE_COVER) {
+        if (flipMode == BookLayoutManager.BookFlipMode.MODE_CURL
+                || flipMode == BookLayoutManager.BookFlipMode.MODE_COVER) {
             puppetView.setVisibility(View.VISIBLE);
         } else {
             puppetView.setVisibility(View.INVISIBLE);//不可以设置为gone，避免animView 无法获取尺寸
         }
-        readRecyclerView.setFlipMode(flipMode);
+        bookRecyclerView.setFlipMode(flipMode);
         puppetView.setAnimMode(flipMode);
 
     }
@@ -166,7 +166,7 @@ public class BookView extends FrameLayout implements AnimParentView {
      */
     @Override
     public void onClickNextArea() {
-        readRecyclerView.onExpectNext(true);
+        bookRecyclerView.onExpectNext(true);
     }
 
     /**
@@ -174,12 +174,12 @@ public class BookView extends FrameLayout implements AnimParentView {
      */
     @Override
     public void onClickPreviousArea() {
-        readRecyclerView.onExpectPrevious(true);
+        bookRecyclerView.onExpectPrevious(true);
     }
 
     public boolean checkAllowChangeData() {
         return !puppetView.animRunningOrTouching()
-                || readRecyclerView.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_NORMAL;
+                || bookRecyclerView.getFlipMode() == BookLayoutManager.BookFlipMode.MODE_NORMAL;
     }
 
     /**

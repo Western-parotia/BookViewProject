@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * create by zhusw on 2020-03-29 17:11
  */
-public class ReadLayoutManager extends RecyclerView.LayoutManager {
+public class BookLayoutManager extends RecyclerView.LayoutManager {
     private int bookFlipMode = BookFlipMode.MODE_CURL;
 
     private Context context;
@@ -58,7 +58,7 @@ public class ReadLayoutManager extends RecyclerView.LayoutManager {
     private OnStopScroller onStopScroller;
     private OnForceLayoutCompleted onForceLayoutCompleted;
 
-    public ReadLayoutManager(Context context) {
+    public BookLayoutManager(Context context) {
         this.context = context;
     }
 

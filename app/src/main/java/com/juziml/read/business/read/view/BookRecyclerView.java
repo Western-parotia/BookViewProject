@@ -19,9 +19,9 @@ import java.util.List;
  * -关闭抛投效果
  * create by zhusw on 2020-03-30 11:51
  */
-public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunction, RVOuterFunction {
+public class BookRecyclerView extends RecyclerView implements RVInnerItemFunction, RVOuterFunction {
 
-    private final ReadLayoutManager readLayoutManger;
+    private final BookLayoutManager readLayoutManger;
 
     private boolean allowInterceptTouchEvent = true;
 
@@ -30,17 +30,17 @@ public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunctio
     private AnimParentView animParentView;
     private BookView.OnPositionChangedListener onPositionChangedListener;
 
-    public ReadRecyclerView(Context context) {
+    public BookRecyclerView(Context context) {
         this(context, null);
     }
 
-    public ReadRecyclerView(Context context, @Nullable AttributeSet attrs) {
+    public BookRecyclerView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ReadRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public BookRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        readLayoutManger = new ReadLayoutManager(context);
+        readLayoutManger = new BookLayoutManager(context);
         setLayoutManager(readLayoutManger);
         readLayoutManger.setOnForceLayoutCompleted(new ItemOnForceLayoutCompleted());
         readLayoutManger.setonStopScroller(new ItemOnScrollStop());
@@ -190,8 +190,8 @@ public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunctio
 
     protected void setFlipMode(int flipMode) {
         readLayoutManger.setBookFlipMode(flipMode);
-        if (flipMode == ReadLayoutManager.BookFlipMode.MODE_CURL
-                || flipMode == ReadLayoutManager.BookFlipMode.MODE_COVER) {
+        if (flipMode == BookLayoutManager.BookFlipMode.MODE_CURL
+                || flipMode == BookLayoutManager.BookFlipMode.MODE_COVER) {
             allowInterceptTouchEvent = false;
         } else {
             allowInterceptTouchEvent = true;
@@ -224,7 +224,7 @@ public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunctio
         animParentView.onClickMenuArea();
     }
 
-    private class ItemOnScrollStop implements ReadLayoutManager.OnStopScroller {
+    private class ItemOnScrollStop implements BookLayoutManager.OnStopScroller {
         @Override
         public void onStop(boolean autoLeftScroll, int curPos) {
             boolean arriveNext = currentPosition < curPos;
@@ -236,7 +236,7 @@ public class ReadRecyclerView extends RecyclerView implements RVInnerItemFunctio
 
     }
 
-    private class ItemOnForceLayoutCompleted implements ReadLayoutManager.OnForceLayoutCompleted {
+    private class ItemOnForceLayoutCompleted implements BookLayoutManager.OnForceLayoutCompleted {
 
         @Override
         public void onLayoutCompleted(final int curPos) {

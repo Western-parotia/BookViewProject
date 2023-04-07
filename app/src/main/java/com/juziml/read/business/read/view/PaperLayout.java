@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
 public class PaperLayout extends LinearLayout {
     private final Canvas viewScreenShotCanvas;
 
-    private ReadRecyclerView readRecyclerView;
+    private BookRecyclerView bookRecyclerView;
     private final RectF menuBounds;
 
     public PaperLayout(@NonNull Context context) {
@@ -40,15 +40,15 @@ public class PaperLayout extends LinearLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        readRecyclerView = (ReadRecyclerView) getParent();
+        bookRecyclerView = (BookRecyclerView) getParent();
 
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if (readRecyclerView.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_CURL
-                || readRecyclerView.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_COVER) {
+        if (bookRecyclerView.getFlipMode() == BookLayoutManager.BookFlipMode.MODE_CURL
+                || bookRecyclerView.getFlipMode() == BookLayoutManager.BookFlipMode.MODE_COVER) {
             requestDisallowInterceptTouchEvent(true);
         } else {
             requestDisallowInterceptTouchEvent(false);
@@ -107,7 +107,7 @@ public class PaperLayout extends LinearLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         //动画执行期间 子view 也不可获取事件
-        if (readRecyclerView.animRunning()) return true;
+        if (bookRecyclerView.animRunning()) return true;
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             interceptDownX = ev.getRawX();
         } else if (ev.getAction() == MotionEvent.ACTION_MOVE) {
@@ -139,7 +139,7 @@ public class PaperLayout extends LinearLayout {
         } else if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
             receiveDownX = -1;
         }
-        if (readRecyclerView.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_NORMAL) {
+        if (bookRecyclerView.getFlipMode() == BookLayoutManager.BookFlipMode.MODE_NORMAL) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 float upX = ev.getRawX();
                 float upY = ev.getRawY();
@@ -147,15 +147,15 @@ public class PaperLayout extends LinearLayout {
                         && downX < menuBounds.right && downY < menuBounds.bottom
                         && upX > menuBounds.left && upY > menuBounds.top
                         && upX < menuBounds.right && upY < menuBounds.bottom) {
-                    readRecyclerView.onClickMenu();
+                    bookRecyclerView.onClickMenu();
                 } else if (upX >= getWidth() / 2F) {
-                    readRecyclerView.onExpectNext(true);
+                    bookRecyclerView.onExpectNext(true);
                 } else if (upX < getWidth() / 2F) {
-                    readRecyclerView.onExpectPrevious(true);
+                    bookRecyclerView.onExpectPrevious(true);
                 }
             }
         } else {
-            readRecyclerView.onItemViewTouchEvent(ev);
+            bookRecyclerView.onItemViewTouchEvent(ev);
         }
         return true;
     }

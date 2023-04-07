@@ -72,9 +72,9 @@ public class PuppetView extends View implements EventProxy, AnimParentView {
     public void setAnimMode(int animMode) {
         //重置某些属性 与变量
         animationEffect = null;
-        if (animMode == ReadLayoutManager.BookFlipMode.MODE_COVER) {
+        if (animMode == BookLayoutManager.BookFlipMode.MODE_COVER) {
             animationEffect = new CoverAnimationEffecter(this);
-        } else if (animMode == ReadLayoutManager.BookFlipMode.MODE_CURL) {
+        } else if (animMode == BookLayoutManager.BookFlipMode.MODE_CURL) {
             animationEffect = new SimulationAnimationEffecter(this);
         }
         if (null != animationEffect) {

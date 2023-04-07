@@ -5,7 +5,7 @@ import android.widget.Toast
 import com.foundation.app.arc.utils.ext.lazyAtomic
 import com.juziml.read.R
 import com.juziml.read.base.BaseActivity
-import com.juziml.read.business.read.view.ReadLayoutManager
+import com.juziml.read.business.read.view.BookLayoutManager
 import com.juziml.read.databinding.ActSimpleBinding
 
 private const val DATA_SIZE = 20
@@ -39,7 +39,7 @@ class SimpleBookAct : BaseActivity() {
             setOnPositionChangedListener { _, curPosition ->
                 position = curPosition
             }
-            setFlipMode(ReadLayoutManager.BookFlipMode.MODE_CURL)
+            setFlipMode(BookLayoutManager.BookFlipMode.MODE_CURL)
             setOnClickMenuListener {
                 showToast("点击菜单")
             }
@@ -47,13 +47,13 @@ class SimpleBookAct : BaseActivity() {
         }
 
         vb.btnCover.setOnClickListener {
-            vb.bookView.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_COVER)
+            vb.bookView.setFlipMode(BookLayoutManager.BookFlipMode.MODE_COVER)
         }
         vb.btnCurl.setOnClickListener {
-            vb.bookView.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_CURL)
+            vb.bookView.setFlipMode(BookLayoutManager.BookFlipMode.MODE_CURL)
         }
         vb.btnNormal.setOnClickListener {
-            vb.bookView.setFlipMode(ReadLayoutManager.BookFlipMode.MODE_NORMAL)
+            vb.bookView.setFlipMode(BookLayoutManager.BookFlipMode.MODE_NORMAL)
         }
         vb.btnPrevious.setOnClickListener {
             if (position > 0) {
