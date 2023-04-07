@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory,android:allowBackup">
         <activity
-            android:name=".business.SimpleBookAct"
+            android:name=".business.StartupAct"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/startup_window">
@@ -26,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".business.SimpleBookAct"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
 
     </application>
 
