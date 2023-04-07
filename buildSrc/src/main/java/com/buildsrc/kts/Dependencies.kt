@@ -27,49 +27,9 @@ object Dependencies {
 
     object Foundation {
         const val activityFragment = "com.foundation.app:activity-fragment:1.1.1"
-        const val net = "com.foundation.service:net:1.0.6"
-        const val loadingView = "com.foundation.widget:loadingview:1.5.0"
-        const val recyclerviewAdapter =
-            "com.foundation.widget:convenient-recyclerview-adapter:1.1.0"
-        const val shape = "com.foundation.widget:shape-view:1.1.2"
-        const val roundedImageView = "com.foundation.widget:rounded-image-view:1.0.1"
-        const val baseDialog = "com.foundation.app:base-dialog:1.0.9"
-        const val radioGroup = "com.foundation.widget:radio-group:1.0.2"
-        const val stickyLayout = "com.foundation.widget:sticky-layout:1.0.7"
-        const val popupWindow = "com.foundation.app:base-popupwindow:1.0.5"
-        const val toast = "com.foundation.widget:Toast:1.0.4"
-        const val pictureSelector = "com.foundation.widget:picture-selector:1.0.5"
-        const val sp = "com.foundation.service:sp:1.0.8"
+        const val rv_adapter = "com.foundation.widget:convenient-recyclerview-adapter:1.1.1"
+        const val view_binding_helper = "com.foundation.widget:view-binding-helper:1.0.6"
 
-        /**
-         * application 初始化管理
-         * activityStack
-         */
-        const val initManager = "com.foundation.app:manager:2.0.1"
-        const val json = "com.foundation.service:json:2.0.1"
-        const val viewBindingHelper = "com.foundation.widget:view-binding-helper:1.0.1"
-        const val annotation = "com.foundation.service:prouter-annotations:0.0.4"
-        const val processor = "com.foundation.service:prouter-processor:0.0.4"
-        const val loggerInterceptor = "com.foundation.service:logger-interceptor:1.0.6"
-        const val debugDialog = "com.foundation.debug:debug-dialog:1.1.4"
-        const val debugHandler = "com.foundation.debug:debug-handler:1.0.1"
-        const val permission = "com.foundation.service:permission:1.0.4"
-        const val deviceUtils = "com.foundation.widget:DeviceUtils:1.0.0"
-        const val messageBus = "com.foundation.service:message-bus:1.0.2"
-        const val sliderVerifyView = "com.foundation.service:slider-verify-view:1.0.0"
-
-        /**
-         * 知乎图片选择
-         */
-        const val zhihuMatisse = "com.foundation.widget:zhihu-matisse:1.0.4"
-
-        /**
-         * 异常统计上报
-         */
-        const val exceptionReport = "com.foundation.service:exception-report:1.0.3"
-
-        const val web = "com.foundation.widget:web:1.0.6"
-        const val utils = "com.foundation.widget:utils:1.0.2"
     }
 
     object AndroidX {

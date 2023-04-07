@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <com.juziml.read.business.read.view.BookView
-        android:id="@+id/ar2dc_readViewGroup"
+        android:id="@+id/bookView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -20,7 +20,7 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:id="@+id/ar2dc_btn_normal"
+            android:id="@+id/btn_normal"
             android:text="无" />
 
 
@@ -29,7 +29,7 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:id="@+id/ar2dc_btn_curl"
+            android:id="@+id/btn_curl"
             android:text="卷曲" />
 
         <Button
@@ -37,7 +37,7 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:id="@+id/ar2dc_btn_cover"
+            android:id="@+id/btn_cover"
             android:text="覆盖" />
 
     </LinearLayout>
@@ -54,7 +54,7 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:id="@+id/ar2dc_btn_previous"
+            android:id="@+id/btn_previous"
             android:text="上" />
 
         <Button
@@ -62,7 +62,7 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:id="@+id/ar2dc_btn_next"
+            android:id="@+id/btn_next"
             android:text="下" />
     </LinearLayout>
 </FrameLayout>

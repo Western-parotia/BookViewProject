@@ -5,7 +5,7 @@
     tools:ignore="ProtectedPermissions">
 
     <application
-        android:name="com.juziml.read.core.App"
+        android:name=".core.App"
         android:allowBackup="false"
         android:appComponentFactory="com.juziml.read"
         android:icon="@drawable/ic_launcher"
@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory,android:allowBackup">
         <activity
-            android:name=".business.SimpleActivity"
+            android:name=".business.SimpleBookAct"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/startup_window">

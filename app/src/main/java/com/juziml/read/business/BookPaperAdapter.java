@@ -23,7 +23,7 @@ public class BookPaperAdapter extends BaseQuickAdapter<BookMockData, BaseViewHol
         this.bgRes = bgRes;
     }
 
-    public void setReadRecyclerViewV2(BookView bookView) {
+    public void setBookView(BookView bookView) {
         this.bookView = bookView;
     }
 

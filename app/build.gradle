@@ -121,4 +121,7 @@ dependencies {
     implementation(Dependencies.Material.material)
     implementation(Dependencies.OpenSourceLibrary.recyclerView)
     implementation(Dependencies.OpenSourceLibrary.chadAdapter)
+    implementation(Dependencies.Foundation.activityFragment)
+    implementation(Dependencies.Foundation.view_binding_helper)
+    implementation(Dependencies.Foundation.rv_adapter)
 }
