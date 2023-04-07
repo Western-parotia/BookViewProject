@@ -19,9 +19,9 @@ import com.juziml.read.business.read.anim.AnimHelper;
  */
 public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
 
-    private ReadRecyclerView readRecyclerViewV2;
+    private ReadRecyclerView readRecyclerView;
     private ReadAnimView readAnimView;
-    private AnimHelper animHelper;
+    private final AnimHelper animHelper;
 
     private OnClickMenuListener onClickMenuListener;
 
@@ -44,13 +44,13 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
 
     private void init() {
         removeAllViews();
-        readRecyclerViewV2 = new ReadRecyclerView(getContext());
+        readRecyclerView = new ReadRecyclerView(getContext());
         readAnimView = new ReadAnimView(getContext());
-        readAnimView.setAnimMode(readRecyclerViewV2.getFlipMode());
-        readRecyclerViewV2.bindReadCurlAnimProxy(readAnimView);
+        readAnimView.setAnimMode(readRecyclerView.getFlipMode());
+        readRecyclerView.bindReadCurlAnimProxy(readAnimView);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.CENTER;
-        addView(readRecyclerViewV2, params);
+        addView(readRecyclerView, params);
 
         LayoutParams params2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         params2.gravity = Gravity.CENTER;
@@ -61,12 +61,12 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        readRecyclerViewV2.bindReadCurlAnimProxy(readAnimView);
+        readRecyclerView.bindReadCurlAnimProxy(readAnimView);
 
     }
 
     public void setOnPositionChangedListener(OnPositionChangedListener onPositionChangedListener) {
-        readRecyclerViewV2.setOnPositionChangedListener(onPositionChangedListener);
+        readRecyclerView.setOnPositionChangedListener(onPositionChangedListener);
 
     }
 
@@ -75,15 +75,15 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
     }
 
     public void scrollToPosition(int position) {
-        readRecyclerViewV2.scrollToPosition(position);
+        readRecyclerView.scrollToPosition(position);
     }
 
     public void smoothScrollToPosition(int position) {
-        readRecyclerViewV2.smoothScrollToPosition(position);
+        readRecyclerView.smoothScrollToPosition(position);
     }
 
     public void setAdapter(RecyclerView.Adapter adapter) {
-        readRecyclerViewV2.setAdapter(adapter);
+        readRecyclerView.setAdapter(adapter);
     }
 
     public void setItemViewBackgroundColor(int itemViewBackgroundColor) {
@@ -94,41 +94,41 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (null != dataPendIntentTask) {
-            readRecyclerViewV2.removeCallbacks(dataPendIntentTask);
+            readRecyclerView.removeCallbacks(dataPendIntentTask);
         }
     }
 
     @Override
     public void onExpectNext() {
-        readRecyclerViewV2.onExpectNext(false);
+        readRecyclerView.onExpectNext(false);
         if (null != dataPendIntentTask) {
-            readRecyclerViewV2.post(dataPendIntentTask);
+            readRecyclerView.post(dataPendIntentTask);
             dataPendIntentTask = null;
         }
     }
 
     @Override
     public void onExpectPrevious() {
-        readRecyclerViewV2.onExpectPrevious(false);
+        readRecyclerView.onExpectPrevious(false);
         if (null != dataPendIntentTask) {
-            readRecyclerViewV2.post(dataPendIntentTask);
+            readRecyclerView.post(dataPendIntentTask);
             dataPendIntentTask = null;
         }
     }
 
     @Override
     public Bitmap getPreviousBitmap() {
-        return readRecyclerViewV2.getPreviousBitmap();
+        return readRecyclerView.getPreviousBitmap();
     }
 
     @Override
     public Bitmap getCurrentBitmap() {
-        return readRecyclerViewV2.getCurrentBitmap();
+        return readRecyclerView.getCurrentBitmap();
     }
 
     @Override
     public Bitmap getNextBitmap() {
-        return readRecyclerViewV2.getNextBitmap();
+        return readRecyclerView.getNextBitmap();
     }
 
     @Override
@@ -144,7 +144,7 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
         } else {
             readAnimView.setVisibility(View.INVISIBLE);//不可以设置为gone，避免animView 无法获取尺寸
         }
-        readRecyclerViewV2.setFlipMode(flipMode);
+        readRecyclerView.setFlipMode(flipMode);
         readAnimView.setAnimMode(flipMode);
 
     }
@@ -166,7 +166,7 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
      */
     @Override
     public void onClickNextArea() {
-        readRecyclerViewV2.onExpectNext(true);
+        readRecyclerView.onExpectNext(true);
     }
 
     /**
@@ -174,12 +174,12 @@ public class ReadViewGroup extends FrameLayout implements CurlAnimParentView {
      */
     @Override
     public void onClickPreviousArea() {
-        readRecyclerViewV2.onExpectPrevious(true);
+        readRecyclerView.onExpectPrevious(true);
     }
 
     public boolean checkAllowChangeData() {
         return !readAnimView.animRunningOrTouching()
-                || readRecyclerViewV2.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_NORMAL;
+                || readRecyclerView.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_NORMAL;
     }
 
     /**

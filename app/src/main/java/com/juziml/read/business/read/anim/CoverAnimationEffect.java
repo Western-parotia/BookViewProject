@@ -26,7 +26,7 @@ public class CoverAnimationEffect implements IAnimationEffect {
 
     int vWidth = 1;
     int vHeight = 1;
-    private ReadAnimView readAnimView;
+    private final ReadAnimView readAnimView;
 
     private boolean isCancelFlip = false;
 
@@ -34,13 +34,13 @@ public class CoverAnimationEffect implements IAnimationEffect {
 
     private boolean isTouching = false;
 
-    private Scroller scroller;
+    private final Scroller scroller;
     private final ScrollRunnable scrollRunnable;
-    private RectF menuBounds;
+    private final RectF menuBounds;
 
-    private Path pathA;
-    private Path pathB;
-    private Paint paint;
+    private final Path pathA;
+    private final Path pathB;
+    private final Paint paint;
     private final int shadowWidth;
 
     public CoverAnimationEffect(ReadAnimView readAnimView) {
@@ -57,7 +57,7 @@ public class CoverAnimationEffect implements IAnimationEffect {
     private int downArea = DOWN_AREA_NONE;
     private float downX = 0F;
     private int coverSlideDirection = AnimHelper.SLID_DIRECTION_UNKNOWN;
-    private List<Float> moveSampling = new LinkedList<>();
+    private final List<Float> moveSampling = new LinkedList<>();
     private final int MAX_COUNT = 5;
     private boolean prepareDrawCoverAnimEffect = false;
 
@@ -188,7 +188,6 @@ public class CoverAnimationEffect implements IAnimationEffect {
     public void draw(Canvas canvas) {
         if (currentX == -1) {
             DLog.log("CoverAnimationEffect draw 1");
-
             return;
         }
         if (coverSlideDirection != AnimHelper.SLID_DIRECTION_LEFT && coverSlideDirection != AnimHelper.SLID_DIRECTION_RIGHT) {
