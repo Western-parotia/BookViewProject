@@ -13,7 +13,7 @@
 核心类就4个，它们的职责跟它们的名字很相近。
 
 * BookView 摆放 RecyclerView 与PuppetView
-* RecyclerView 作为底层容器，接受滑动事件，完成页面更换与事件分配
+* BookRecyclerView 作为底层容器，接受滑动事件，完成页面更换与事件分配
 * PaperLayout 作为页面卡片根布局，也就是设置给RecyclerView.Adapter加载的布局
 * PuppetView 本身不处理任何事件,只是展示动画
 
