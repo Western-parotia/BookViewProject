@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
 public class PagerLayout extends FrameLayout {
     private final Canvas viewScreenShotCanvas;
 
-    private ReadRecyclerView recyclerViewV2;
+    private ReadRecyclerView readRecyclerView;
     private final RectF menuBounds;
 
     public PagerLayout(@NonNull Context context) {
@@ -40,15 +40,15 @@ public class PagerLayout extends FrameLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        recyclerViewV2 = (ReadRecyclerView) getParent();
+        readRecyclerView = (ReadRecyclerView) getParent();
 
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if (recyclerViewV2.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_CURL
-                || recyclerViewV2.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_COVER) {
+        if (readRecyclerView.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_CURL
+                || readRecyclerView.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_COVER) {
             requestDisallowInterceptTouchEvent(true);
         } else {
             requestDisallowInterceptTouchEvent(false);
@@ -107,7 +107,7 @@ public class PagerLayout extends FrameLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         //动画执行期间 子view 也不可获取事件
-        if (recyclerViewV2.animRunning()) return true;
+        if (readRecyclerView.animRunning()) return true;
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             interceptDownX = ev.getRawX();
         } else if (ev.getAction() == MotionEvent.ACTION_MOVE) {
@@ -139,7 +139,7 @@ public class PagerLayout extends FrameLayout {
         } else if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
             receiveDownX = -1;
         }
-        if (recyclerViewV2.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_NORMAL) {
+        if (readRecyclerView.getFlipMode() == ReadLayoutManager.BookFlipMode.MODE_NORMAL) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 float upX = ev.getRawX();
                 float upY = ev.getRawY();
@@ -147,15 +147,15 @@ public class PagerLayout extends FrameLayout {
                         && downX < menuBounds.right && downY < menuBounds.bottom
                         && upX > menuBounds.left && upY > menuBounds.top
                         && upX < menuBounds.right && upY < menuBounds.bottom) {
-                    recyclerViewV2.onClickMenu();
+                    readRecyclerView.onClickMenu();
                 } else if (upX >= getWidth() / 2F) {
-                    recyclerViewV2.onExpectNext(true);
+                    readRecyclerView.onExpectNext(true);
                 } else if (upX < getWidth() / 2F) {
-                    recyclerViewV2.onExpectPrevious(true);
+                    readRecyclerView.onExpectPrevious(true);
                 }
             }
         } else {
-            recyclerViewV2.onItemViewTouchEvent(ev);
+            readRecyclerView.onItemViewTouchEvent(ev);
         }
         return true;
     }
