@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.foundation.widget.shape.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginHorizontal="@dimen/dp_40"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_20"
+    android:shape="rectangle"
+    app:shapeCornersRadius="@dimen/dp_10"
+    app:shapeSolidColor="@color/color_FFFFFF">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="关于"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/dp_25"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/app_description"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/dp_18" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="特别鸣谢：所有人"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/dp_18" />
+    </LinearLayout>
+</com.foundation.widget.shape.ShapeLinearLayout>

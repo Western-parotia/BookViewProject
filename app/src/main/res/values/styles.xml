@@ -1,0 +1,32 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--新版主题色，状态栏为白色-->
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="actionMenuTextColor">@color/color_FFFFFF</item>
+        <item name="actionMenuTextAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <!--        状态栏白色-->
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <!--        状态栏字体黑色-->
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="startup_window" parent="BaseTheme">
+        <item name="android:windowBackground">@drawable/bg_app_window</item>
+    </style>
+
+    <style name="UITheme" parent="BaseTheme">
+        <item name="android:windowBackground">#0000</item>
+    </style>
+
+    <style name="chatEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:colorControlActivated">@color/colorPrimaryText</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
+</resources>

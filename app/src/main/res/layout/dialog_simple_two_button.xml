@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.foundation.widget.shape.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginHorizontal="@dimen/dp_30"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/dp_16"
+    android:paddingVertical="@dimen/dp_24"
+    android:shape="rectangle"
+    app:shapeCornersRadius="@dimen/dp_16"
+    app:shapeSolidColor="@color/color_FFFFFF">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/dp_20"
+        android:textStyle="bold"
+        tools:text="提醒" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/dp_17"
+        tools:text="text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_30"
+        android:orientation="horizontal">
+
+        <com.foundation.widget.shape.ShapeTextView
+            android:id="@+id/tvCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="@dimen/dp_7"
+            android:paddingBottom="@dimen/dp_7"
+            android:shape="rectangle"
+            android:text="取消"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/dp_16"
+            app:shapeCornersRadius="@dimen/dp_500"
+            app:shapeSolidColor="@color/color_f0f0f0" />
+
+        <com.foundation.widget.shape.ShapeTextView
+            android:id="@+id/tvConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="@dimen/dp_7"
+            android:paddingBottom="@dimen/dp_7"
+            android:shape="rectangle"
+            android:text="确认"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/dp_16"
+            app:shapeCornersRadius="@dimen/dp_500"
+            app:shapeSolidColor="@color/colorPrimary" />
+    </LinearLayout>
+</com.foundation.widget.shape.ShapeLinearLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <!--/storage/emulated/0/chat-->
+        <external-path
+            name="chat_extra_path"
+            path="chat" />
+        <!--/storage/emulated/0/chat-->
+        <files-path
+            name="chat_private_path"
+            path="chat" />
+        <root-path
+            name="root_path"
+            path="." />
+    </paths>
+</resources>

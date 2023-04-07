@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="test_long_str">长文本长文本长长文长文本长文本长长文本长文本长文本长文本文本文本长文本长文本文本长文本本长文本长文本长文本文本长文本</string>
+    <string name="test_short_str">长文</string>
+    <string name="app_description">数据完全保存在本地
+        \n文字模型: GPT-3.5-Turbo
+        \n语音模型：whisper-1</string>
+</resources>

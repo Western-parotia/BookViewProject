@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#5aa5c5</color>
+    <color name="colorPrimaryDark">#4e9cbf</color>
+    <color name="colorAccent">#E5738E</color>
+    <color name="colorAccentBlue">#79b9d2</color>
+    <!--线的颜色-->
+    <color name="colorLine">#1E445E</color>
+    <!--列表主副色调-->
+    <color name="colorListItemBackground">@color/colorPrimary</color>
+    <color name="colorListItemBackgroundSub">@color/colorPrimary</color>
+
+    <!--主色调同类色系的字体颜色-->
+    <color name="colorPrimaryText">#f0f0f0</color>
+    <color name="colorPrimaryDarkText">#C2C2C2</color>
+
+    <color name="color_333333">#333333</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_FFFFFF">#FFFFFF</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_f0f0f0">#f0f0f0</color>
+    <color name="color_shadow_line">#aa305C79</color>
+</resources>
+
+
+
+

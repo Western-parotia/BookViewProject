@@ -1,0 +1,28 @@
+import com.buildsrc.kts.GlobalConfig
+
+//buildSrc的初始化init
+GlobalConfig.init(project)
+
+buildscript {
+
+    repositories {
+        com.buildsrc.kts.Repositories.defRepositories(it)
+    }
+
+    dependencies {
+        //recofix 引起processManifest错误 只能使用老版本编译
+        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${com.buildsrc.kts.Dependencies.Kotlin.version}"
+    }
+}
+
+
+allprojects {
+    repositories {
+        com.buildsrc.kts.Repositories.defRepositories(it)
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

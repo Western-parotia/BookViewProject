@@ -1,0 +1,46 @@
+# //////////////////////通用 且必须的忽略//////////////////////
+
+# 所有的iml 文件
+*.iml
+
+# .idea 下的所有文件与目录，可与！互斥
+.idea/*
+
+# 避免忽略 codeStyle
+!codeStyles/
+
+# 避免忽略 dictionaries //代码字典，屏蔽拼写错误提示
+!dictionaries/
+
+# 避免忽略 encodings.xml 编码
+!encodings.xml
+
+# 所有的build 文件夹
+build
+
+# 内存快照
+*.hprof
+
+# 截图快照
+/captures
+# MAC 磁盘文件 具体是啥不知道
+.DS_Store
+
+# native 编译缓存
+.externalNativeBuild
+.cxx
+
+# 整个 .gradle 文件夹
+.gradle
+
+## 1 2级 目录的 release文件夹
+/release
+*/release
+## 1 2级 目录的 debug文件夹
+/debug
+*/debug
+
+#本地配置参数
+local.properties
+
+# //////////////////////第三方//////////////////////

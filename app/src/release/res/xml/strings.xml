@@ -1,0 +1,4 @@
+<resources>
+    <string name="test_long_str"></string>
+    <string name="test_short_str"></string>
+</resources>

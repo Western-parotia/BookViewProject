@@ -1,0 +1,218 @@
+import com.buildsrc.kts.AndroidConfig
+import com.buildsrc.kts.Dependencies
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: "kotlin-parcelize"
+
+Properties properties = new Properties()
+properties.load(new FileInputStream(file(rootProject.file("signing.properties"))))
+
+android {
+    compileSdkVersion AndroidConfig.compileSdkVersion
+
+    useLibrary 'org.apache.http.legacy'
+    viewBinding {
+        enabled = true
+    }
+    signingConfigs {
+        release {
+            keyAlias properties['keyAlias']
+            keyPassword properties['keyPassword']
+            storeFile file(properties['storeFile'])
+            storePassword properties['storePassword']
+        }
+    }
+
+    defaultConfig {
+        setApplicationId(AndroidConfig.AppInfo.applicationId)
+        setVersionCode(AndroidConfig.AppInfo.versionCode)
+        setVersionName(AndroidConfig.AppInfo.versionName)
+        minSdkVersion AndroidConfig.minSdkVersion
+        targetSdkVersion AndroidConfig.targetSdkVersion
+        ndk {
+            //flutter 目前只支持：'armeabi-v7a', 'arm64-v8a', 'x86_64'
+            abiFilters "arm64-v8a", 'armeabi-v7a' //, 'x86', 'mips',
+        }
+        multiDexEnabled true
+
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+
+        //app名
+        resValue("string", "app_name", AndroidConfig.AppInfo.appName)
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled AndroidConfig.AppInfo.releaseObfuscate
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            renderscriptDebuggable true
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            renderscriptDebuggable true
+            zipAlignEnabled false
+            signingConfig signingConfigs.release
+            ndk {
+                abiFilters 'x86'
+            }
+        }
+
+        debugProguard {
+            //从release出会导致一些key是release的
+            initWith(debug)
+            minifyEnabled AndroidConfig.AppInfo.debugProguardObfuscate
+            zipAlignEnabled true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        //为java继承的kotlin interface default方法添加实现
+        freeCompilerArgs += ["-Xjvm-default=all-compatibility"]
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4G"
+        //关闭预编译
+        preDexLibraries false
+        dexInProcess = false
+    }
+
+    lintOptions {
+        //禁用掉丢失多国语言的错误提示
+        disable 'MissingTranslation'
+        //禁用掉manifest仅支持竖屏的错误提示
+        disable 'LockedOrientationActivity'
+        //禁用掉代码setText必须使用string res的警告
+        disable 'SetTextI18n'
+        //禁用掉xml的text必须使用string res的警告
+        disable 'HardcodedText'
+        //禁用掉xml的ImageView必须添加描述的警告
+        disable 'ContentDescription'
+        //禁用掉text使用dp的警告
+        disable 'SpUsage'
+
+        abortOnError false
+    }
+
+}
+/**
+ * 动态修改manifest解决Android 12因为exported的构建问题
+ * 注意：升级gradle版本可能会导致无效（未测）
+ */
+android.applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+        def processManifest = output.getProcessManifestProvider().get()
+        processManifest.doLast { task ->
+            def outputDir = task.multiApkManifestOutputDirectory
+            File outputDirectory
+            if (outputDir instanceof File) {
+                outputDirectory = outputDir
+            } else {
+                outputDirectory = outputDir.get().asFile
+            }
+            File manifestOutFile = file("$outputDirectory/AndroidManifest.xml")
+            println("----------- ${manifestOutFile} ----------- ")
+
+            if (manifestOutFile.exists() && manifestOutFile.canRead() && manifestOutFile.canWrite()) {
+                def manifestFile = manifestOutFile
+                ///这里第二个参数是 false ，所以 namespace 是展开的，所以下面不能用 androidSpace，而是用 nameTag
+                def xml = new XmlParser(false, false).parse(manifestFile)
+                def exportedTag = "android:exported"
+                def nameTag = "android:name"
+                ///指定 space
+                //def androidSpace = new groovy.xml.Namespace('http://schemas.android.com/apk/res/android', 'android')
+
+                def nodes = xml.application[0].'*'.findAll {
+                    //挑选要修改的节点，没有指定的 exported 的才需要增加
+                    //如果 exportedTag 拿不到可以尝试 it.attribute(androidSpace.exported)
+                    (it.name() == 'activity' || it.name() == 'receiver' || it.name() == 'service') && it.attribute(exportedTag) == null
+
+                }
+                ///添加 exported，默认 false
+                nodes.each {
+                    def isMain = false
+                    it.each {
+                        if (it.name() == "intent-filter") {
+                            it.each {
+                                if (it.name() == "action") {
+                                    //如果 nameTag 拿不到可以尝试 it.attribute(androidSpace.name)
+                                    if (it.attributes().get(nameTag) == "android.intent.action.MAIN") {
+                                        isMain = true
+                                        println("......................MAIN FOUND......................")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    it.attributes().put(exportedTag, "${isMain}")
+                }
+
+                PrintWriter pw = new PrintWriter(manifestFile)
+                pw.write(groovy.xml.XmlUtil.serialize(xml))
+                pw.close()
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+
+    implementation Dependencies.AndroidX.appcompat
+    implementation Dependencies.OpenSourceLibrary.junit
+
+    implementation Dependencies.OpenSourceLibrary.retorifit
+    implementation Dependencies.OpenSourceLibrary.glide
+    implementation Dependencies.OpenSourceLibrary.zxingLibrary
+
+    implementation Dependencies.Kotlin.kotlin_stdlib
+    implementation Dependencies.AndroidX.constraintLayout
+    implementation Dependencies.Google.flexBox
+
+    implementation(Dependencies.Foundation.loggerInterceptor)
+    implementation(Dependencies.Material.material)
+
+    implementation Dependencies.Foundation.popupWindow
+    implementation Dependencies.Foundation.stickyLayout
+    implementation Dependencies.Foundation.debugHandler
+    implementation Dependencies.Foundation.initManager
+    implementation Dependencies.Foundation.loadingView
+    implementation Dependencies.Foundation.recyclerviewAdapter
+    implementation Dependencies.Foundation.shape
+    implementation Dependencies.Foundation.roundedImageView
+    implementation Dependencies.Foundation.json
+    implementation Dependencies.Foundation.radioGroup
+    implementation Dependencies.Foundation.sp
+    implementation Dependencies.Foundation.deviceUtils
+    implementation Dependencies.Foundation.debugDialog
+    implementation Dependencies.Foundation.baseDialog
+    implementation Dependencies.Foundation.permission
+    implementation Dependencies.Foundation.messageBus
+    implementation(Dependencies.Foundation.zhihuMatisse) {
+        exclude group: 'com.github.bumptech.glide'
+    }
+
+    implementation Dependencies.OpenSourceLibrary.smartRefreshLayout
+    implementation Dependencies.OpenSourceLibrary.smartRefreshLayoutHeader
+    implementation Dependencies.OpenSourceLibrary.smartRefreshLayoutFooter
+    implementation Dependencies.Foundation.viewBindingHelper
+
+    implementation Dependencies.Foundation.web
+    implementation Dependencies.Foundation.utils
+    api Dependencies.AndroidX.core_ktx
+    api Dependencies.OpenSourceLibrary.unpeekLiveData
+    api Dependencies.Foundation.activityFragment
+    api Dependencies.Foundation.net
+}

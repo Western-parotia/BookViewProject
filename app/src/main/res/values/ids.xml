@@ -1,0 +1,22 @@
+<resources>
+    <item name="recyclerview_swipe" type="id" />
+    <item name="anim_icon" type="id" />
+    <item name="tag_show_coupon_detail" type="id" />
+
+
+    <!--键盘监听-->
+    <item name="tag_keyboard_tree_listener" type="id" />
+    <!--adapter child click 时加tag-->
+    <item name="tag_adapter_child_view_click" type="id" />
+    <!--viewHolder的tag-->
+    <item name="tag_adapter_view_holder" type="id" />
+    <!--RecyclerView不支持点击，这里存点击的拓展，见RecyclerViewExt类-->
+    <item name="tag_rv_click" type="id" />
+    <!--tabLayout滑动切换回调-->
+    <item name="tag_tabLayout_scale_ext" type="id" />
+    <!--tabLayout和vp的关联器-->
+    <item name="tag_tabLayout_mediator" type="id" />
+    <!--textChanged回调（主要用于adapter）-->
+    <item name="tag_text_changed_listener" type="id" />
+    <item name="typing_animation_id_1" type="id" />
+</resources>
