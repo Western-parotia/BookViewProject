@@ -8,20 +8,17 @@ import com.juziml.read.base.BaseActivity
 import com.juziml.read.business.read.view.ReadLayoutManager
 import com.juziml.read.databinding.ActSimpleBinding
 
+private const val DATA_SIZE = 20
+
 class SimpleBookAct : BaseActivity() {
-    val vb by lazyAndSetRoot<ActSimpleBinding>()
-
-
+    private val vb by lazyAndSetRoot<ActSimpleBinding>()
     var position = 0
-    val DATA_SIZE = 20
-    val bookPaperAdapter by lazyAtomic {
+    private val bookPaperAdapter by lazyAtomic {
         BookPaperAdapter()
     }
 
     override fun init(savedInstanceState: Bundle?) {
         bookPaperAdapter.apply {
-            setBookView(vb.bookView)
-            setNewData(createData(DATA_SIZE))
             setOnItemChildClickListener { _, view, position ->
                 when (view.id) {
                     R.id.ir2d_iv -> {
@@ -73,7 +70,7 @@ class SimpleBookAct : BaseActivity() {
     }
 
     override fun bindData() {
-
+        bookPaperAdapter.setNewData(createData(DATA_SIZE))
     }
 
     private fun createData(paperSize: Int): List<BookMockData> {

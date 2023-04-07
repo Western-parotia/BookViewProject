@@ -10,7 +10,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:padding="10dp"
-        android:id="@+id/irb_fl_content"
+        android:id="@+id/flContent"
+        android:background="@color/read_bg"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent">
@@ -27,7 +28,7 @@
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:id="@+id/ir2d_tv_content"
+            android:id="@+id/tvContent"
             android:text="测试内容 待填充阿斯利康大家阿拉山口
             简单卢卡斯简单卢卡斯就到了空间啊索朗多吉阿斯利康大家
             阿斯利康到家啦剋睡觉啦剋是几点了卡就算了的空间啊数
@@ -38,7 +39,7 @@
             简单卢卡斯简单卢卡斯就到了空间啊索朗多吉阿斯利康大家
             阿斯利康到家啦剋睡觉啦剋是几点了卡就算了的空间啊数
             量的空间阿斯利康大家啦上课"
-            android:textColor="#000"
+            android:textColor="@color/read_txt"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
@@ -48,7 +49,7 @@
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:id="@+id/ir2d_tv_position"
+            android:id="@+id/tvPosition"
             android:text="测试内容 待填充"
             android:gravity="center"
             android:textColor="#000"
@@ -85,13 +86,13 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/ir2d_tv_content2"
+            android:id="@+id/tvContent2"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text=""
-            android:textColor="#000"
+            android:textColor="@color/read_txt"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
