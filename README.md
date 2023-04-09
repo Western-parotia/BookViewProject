@@ -1,4 +1,7 @@
 # 介绍
+
+![simple_view](./images/demo_pic.png)
+
 * app module：完整的阅读器demo
 * gpu_test module：独立的仿真动画demo
 
@@ -6,7 +9,6 @@
 
 采用木偶View将渲染， Paper页面布局、事件、动画完全分离。PaperLayout继承成自LinearLayout，
 支持放入图片，视频等元素，但完全无需关心翻页动画的渲染。（不包含文字的处理，以后应该也不会添加）
-![simple_view](./images/demo_pic.png)
 
 https://user-images.githubusercontent.com/13959965/230751166-a72e1f4b-317b-47a7-aa1c-bbc70ca34f13.mp4
 
