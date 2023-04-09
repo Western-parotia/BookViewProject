@@ -99,19 +99,19 @@ public class GpuTestCurlAnimView extends View {
     public void flipSetToDefault() {
         a.setXY(-1, -1);
         f.setXY(0, 0);
-        calculatePoinXY(a, f);
+        calculatePointXY(a, f);
         postInvalidate();
     }
 
     public void flipCurl(float x, float y) {
         a.x = x;
         a.y = y;
-        calculatePoinXY(a, f);
+        calculatePointXY(a, f);
 
         //修正c点范围 不可小于0
         if (calculateCxRange(a.x, a.y, f) < 0) {
             calcPointAByTouchPoint();
-            calculatePoinXY(a, f);
+            calculatePointXY(a, f);
         }
         postInvalidate();
     }
@@ -260,7 +260,10 @@ public class GpuTestCurlAnimView extends View {
      * @param lineTwo_My_pointTwo
      * @return
      */
-    private FPoint getIntersectionPoint(FPoint lineOne_My_pointOne, FPoint lineOne_My_pointTwo, FPoint lineTwo_My_pointOne, FPoint lineTwo_My_pointTwo) {
+    private FPoint getIntersectionPoint(FPoint lineOne_My_pointOne,
+                                        FPoint lineOne_My_pointTwo,
+                                        FPoint lineTwo_My_pointOne,
+                                        FPoint lineTwo_My_pointTwo) {
         float x1, y1, x2, y2, x3, y3, x4, y4;
         x1 = lineOne_My_pointOne.x;
         y1 = lineOne_My_pointOne.y;
@@ -271,10 +274,12 @@ public class GpuTestCurlAnimView extends View {
         x4 = lineTwo_My_pointTwo.x;
         y4 = lineTwo_My_pointTwo.y;
 
-        float pointX = ((x1 - x2) * (x3 * y4 - x4 * y3) - (x3 - x4) * (x1 * y2 - x2 * y1))
-                / ((x3 - x4) * (y1 - y2) - (x1 - x2) * (y3 - y4));
-        float pointY = ((y1 - y2) * (x3 * y4 - x4 * y3) - (x1 * y2 - x2 * y1) * (y3 - y4))
-                / ((y1 - y2) * (x3 - x4) - (x1 - x2) * (y3 - y4));
+        float pointX = ((x1 - x2) * (x3 * y4 - x4 * y3)
+                - (x3 - x4) * (x1 * y2 - x2 * y1)) / ((x3 - x4)
+                * (y1 - y2) - (x1 - x2) * (y3 - y4));
+        float pointY = ((y1 - y2) * (x3 * y4 - x4 * y3)
+                - (x1 * y2 - x2 * y1) * (y3 - y4)) / ((y1 - y2)
+                * (x3 - x4) - (x1 - x2) * (y3 - y4));
 
         return new FPoint(pointX, pointY);
     }
@@ -282,7 +287,7 @@ public class GpuTestCurlAnimView extends View {
     /**
      * 计算各点坐标
      */
-    private void calculatePoinXY(FPoint a, FPoint f) {
+    private void calculatePointXY(FPoint a, FPoint f) {
         g.x = (a.x + f.x) / 2;
         g.y = (a.y + f.y) / 2;
 
