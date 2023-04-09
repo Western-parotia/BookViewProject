@@ -136,17 +136,22 @@ public class PaperLayout extends LinearLayout {
                 ev.setAction(MotionEvent.ACTION_DOWN);
                 receiveDownX = ev.getRawX();
             }
-        } else if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
+        } else if (ev.getAction() == MotionEvent.ACTION_UP
+                || ev.getAction() == MotionEvent.ACTION_CANCEL) {
             receiveDownX = -1;
         }
         if (bookRecyclerView.getFlipMode() == BookLayoutManager.BookFlipMode.MODE_NORMAL) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 float upX = ev.getRawX();
                 float upY = ev.getRawY();
-                if (downX > menuBounds.left && downY > menuBounds.top
-                        && downX < menuBounds.right && downY < menuBounds.bottom
-                        && upX > menuBounds.left && upY > menuBounds.top
-                        && upX < menuBounds.right && upY < menuBounds.bottom) {
+                if (downX > menuBounds.left
+                        && downY > menuBounds.top
+                        && downX < menuBounds.right
+                        && downY < menuBounds.bottom
+                        && upX > menuBounds.left
+                        && upY > menuBounds.top
+                        && upX < menuBounds.right
+                        && upY < menuBounds.bottom) {
                     bookRecyclerView.onClickMenu();
                 } else if (upX >= getWidth() / 2F) {
                     bookRecyclerView.onExpectNext(true);

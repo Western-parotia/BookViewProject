@@ -23,7 +23,7 @@ import com.juziml.read.business.read.anim.SimulationAnimationEffecter;
  */
 public class PuppetView extends View implements EventProxy, AnimParentView {
 
-    IAnimationEffecter animationEffect;
+    IAnimationEffecter animationEffecter;
     AnimParentView parentView;
     private Bitmap previousViewBitmap;
     private Bitmap currentViewBitmap;
@@ -43,16 +43,15 @@ public class PuppetView extends View implements EventProxy, AnimParentView {
         super(context, attrs, defStyleAttr);
         /*
             view 可以单独关，但是不能单独打开硬件加速
-
             关闭硬件加速 卡到爆炸
             开启硬件加速，诱发 OpenGLRenderer: Path too large to be rendered into a texture
+            setLayerType(LAYER_TYPE_SOFTWARE,null);
          */
-//        setLayerType(LAYER_TYPE_SOFTWARE,null);
     }
 
     public boolean animRunningOrTouching() {
         boolean animRunningOrTouching = false;
-        if (null != animationEffect) {
+        if (null != animationEffecter) {
             animRunningOrTouching = animRunning();
         }
         return animRunningOrTouching;
@@ -63,29 +62,29 @@ public class PuppetView extends View implements EventProxy, AnimParentView {
         super.onAttachedToWindow();
         ViewParent viewParent = getParent();
         parentView = (AnimParentView) viewParent;
-        if (null != animationEffect) {
-            animationEffect.onViewAttachedToWindow();
+        if (null != animationEffecter) {
+            animationEffecter.onViewAttachedToWindow();
         }
     }
 
 
     public void setAnimMode(int animMode) {
         //重置某些属性 与变量
-        animationEffect = null;
+        animationEffecter = null;
         if (animMode == BookLayoutManager.BookFlipMode.MODE_COVER) {
-            animationEffect = new CoverAnimationEffecter(this);
+            animationEffecter = new CoverAnimationEffecter(this);
         } else if (animMode == BookLayoutManager.BookFlipMode.MODE_CURL) {
-            animationEffect = new SimulationAnimationEffecter(this);
+            animationEffecter = new SimulationAnimationEffecter(this);
         }
-        if (null != animationEffect) {
-            animationEffect.onViewSizeChanged(vWidth, vHeight);
+        if (null != animationEffecter) {
+            animationEffecter.onViewSizeChanged(vWidth, vHeight);
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
-        if (performDrawCurlTexture && null != animationEffect) {
-            animationEffect.draw(canvas);
+        if (performDrawCurlTexture && null != animationEffecter) {
+            animationEffecter.draw(canvas);
         } else {
             super.draw(canvas);
         }
@@ -94,8 +93,8 @@ public class PuppetView extends View implements EventProxy, AnimParentView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (null != animationEffect) {
-            animationEffect.onViewDetachedFromWindow();
+        if (null != animationEffecter) {
+            animationEffecter.onViewDetachedFromWindow();
         }
     }
 
@@ -114,8 +113,8 @@ public class PuppetView extends View implements EventProxy, AnimParentView {
         setMeasuredDimension(width - 2, height);
         vWidth = width;
         vHeight = height;
-        if (null != animationEffect) {
-            animationEffect.onViewSizeChanged(vWidth, vHeight);
+        if (null != animationEffecter) {
+            animationEffecter.onViewSizeChanged(vWidth, vHeight);
         }
     }
 
@@ -124,7 +123,6 @@ public class PuppetView extends View implements EventProxy, AnimParentView {
         int result = defaultSize;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
-
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
         } else if (specMode == MeasureSpec.AT_MOST) {
@@ -143,31 +141,29 @@ public class PuppetView extends View implements EventProxy, AnimParentView {
             previousViewBitmap = parentView.getPreviousBitmap();
         }
         performDrawCurlTexture = true;
-
-
     }
 
 
     @Override
     public boolean onItemViewTouchEvent(MotionEvent event) {
-        if (null != animationEffect) {
-            animationEffect.handlerEvent(event);
+        if (null != animationEffecter) {
+            animationEffecter.handlerEvent(event);
         }
         return true;
     }
 
     @Override
     public boolean animRunning() {
-        if (null != animationEffect) {
-            return animationEffect.animInEffect();
+        if (null != animationEffecter) {
+            return animationEffecter.animInEffect();
         }
         return false;
     }
 
     @Override
     public void computeScroll() {
-        if (null != animationEffect) {
-            animationEffect.onScroll();
+        if (null != animationEffecter) {
+            animationEffecter.onScroll();
         }
     }
 

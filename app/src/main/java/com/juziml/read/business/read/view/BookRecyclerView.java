@@ -16,7 +16,7 @@ import java.util.List;
 
 
 /**
- * -关闭抛投效果
+ * 关闭了抛投效果
  * create by zhusw on 2020-03-30 11:51
  */
 public class BookRecyclerView extends RecyclerView implements RVInnerItemFunction, RVOuterFunction {
@@ -154,10 +154,11 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
-        //直接设置为false ，相当于所有子view的滑动 recyclerview 都不再拦截 一劳永逸
+        //交由父类处理滑动，flip = BookFlipMode.MODE_NORMAL,
         if (allowInterceptTouchEvent) {
             return super.onInterceptTouchEvent(e);
         }
+        //交由子View自行处理,flip = BookFlipMode.MODE_COVER| BookFlipMode.MODE_CURL
         return false;
     }
 
