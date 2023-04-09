@@ -3,7 +3,7 @@
 ![simple_view](./images/demo_pic.png)
 
 * app module：完整的阅读器demo
-* gpu_test module：独立的仿真动画demo
+* gpu_test module：上图纯色demo，作为独立的仿真动画实现最小demo，就一个类，包含完整的仿真动画算法与标点
 
 提供一种阅读器的实现思路，基于RecyclerView，只需将PaperLayout作为Item根布局即可。
 
