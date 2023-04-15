@@ -290,7 +290,7 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
                 pageView.drawViewScreenShotToBitmap(bitmapTarget);
                 return bitmapTarget;
             } else {
-                throw new IllegalArgumentException("item root view must be us Curl2dAnimViewGroup");
+                throw new IllegalArgumentException("item 根View必须使用 PaperLayout");
             }
         }
         return null;
