@@ -1,6 +1,5 @@
 ![中文文档](./README-ZH.md)
 
-Here is an English translation of the markdown you provided:
 This is an Android-based reader project that uses a ViewGroup with custom RecyclerView and
 LayoutManager to achieve complete separation of animation and data binding, allowing for custom item
 views.
