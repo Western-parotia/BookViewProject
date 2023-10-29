@@ -59,9 +59,6 @@ android {
             renderscriptDebuggable true
             zipAlignEnabled false
             signingConfig signingConfigs.release
-            ndk {
-                abiFilters 'x86'
-            }
         }
 
         debugProguard {
