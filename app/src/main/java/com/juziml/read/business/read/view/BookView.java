@@ -137,7 +137,7 @@ public class BookView extends FrameLayout implements AnimParentView {
     }
 
 
-    public void setFlipMode(int flipMode) {
+    public void setFlipMode(@BookLayoutManager.BookFlipMode int flipMode) {
         if (flipMode == BookLayoutManager.BookFlipMode.MODE_CURL
                 || flipMode == BookLayoutManager.BookFlipMode.MODE_COVER) {
             puppetView.setVisibility(View.VISIBLE);
