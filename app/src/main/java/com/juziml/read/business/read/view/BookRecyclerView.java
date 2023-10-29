@@ -30,6 +30,10 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
     private AnimParentView animParentView;
     private BookView.OnPositionChangedListener onPositionChangedListener;
 
+    private Bitmap previousBitmap = null;
+    private Bitmap currentBitmap = null;
+    private Bitmap nextBitmap = null;
+
     public BookRecyclerView(Context context) {
         this(context, null);
     }
@@ -56,6 +60,7 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         eventProxyWeakReference.clear();
+        clearBitmapCache();
     }
 
     protected void bindReadCurlAnimProxy(EventProxy ic) {
@@ -120,8 +125,7 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
             case MotionEvent.ACTION_MOVE:
                 float mx = e.getRawX();
 
-                if (moveSampling.size() == 0
-                        || mx != moveSampling.get(moveSampling.size() - 1)) {
+                if (moveSampling.size() == 0 || mx != moveSampling.get(moveSampling.size() - 1)) {
                     moveSampling.add(mx);
                 }
                 if (moveSampling.size() > MAX_COUNT) {
@@ -191,8 +195,7 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
 
     protected void setFlipMode(int flipMode) {
         readLayoutManger.setBookFlipMode(flipMode);
-        if (flipMode == BookLayoutManager.BookFlipMode.MODE_CURL
-                || flipMode == BookLayoutManager.BookFlipMode.MODE_COVER) {
+        if (flipMode == BookLayoutManager.BookFlipMode.MODE_CURL || flipMode == BookLayoutManager.BookFlipMode.MODE_COVER) {
             allowInterceptTouchEvent = false;
         } else {
             allowInterceptTouchEvent = true;
@@ -254,14 +257,14 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
         int prePos = currentPosition - 1;
         Bitmap pb = null;
         if (prePos >= 0) {
-            pb = printViewToBitmap(prePos);
+            pb = printViewToBitmap(prePos, 0);
         }
         return pb;
     }
 
     @Override
     public Bitmap getCurrentBitmap() {
-        return printViewToBitmap(currentPosition);
+        return printViewToBitmap(currentPosition, 1);
     }
 
     @Override
@@ -270,7 +273,7 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
         int nextPos = currentPosition + 1;
         Bitmap nb = null;
         if (nextPos < dataCount) {
-            nb = printViewToBitmap(nextPos);
+            nb = printViewToBitmap(nextPos, 2);
         }
         return nb;
     }
@@ -278,15 +281,15 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
     /**
      * 将view渲染结果 打印到一个bitmap上
      *
-     * @param pos
+     * @param type 0 前一页，1 当前页，2 后一页
      * @return
      */
-    private Bitmap printViewToBitmap(int pos) {
+    private Bitmap printViewToBitmap(int pos, int type) {
         View view = readLayoutManger.findViewByPosition(pos);
         if (null != view) {
             if (view instanceof PaperLayout) {
                 PaperLayout pageView = (PaperLayout) view;
-                Bitmap bitmapTarget = Bitmap.createBitmap(pageView.getWidth(), pageView.getHeight(), Bitmap.Config.ARGB_4444);
+                Bitmap bitmapTarget = obtainBitmap(pageView.getWidth(), pageView.getHeight(), type);
                 pageView.drawViewScreenShotToBitmap(bitmapTarget);
                 return bitmapTarget;
             } else {
@@ -296,5 +299,38 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
         return null;
     }
 
+    private Bitmap obtainBitmap(int w, int h, int type) {
+        Bitmap cache = null;
+        if (type == 0) {
+            previousBitmap = previousBitmap != null ? previousBitmap : createNewBitmap(w, h);
+            cache = previousBitmap;
+        } else if (type == 1) {
+            currentBitmap = currentBitmap != null ? currentBitmap : createNewBitmap(w, h);
+            cache = currentBitmap;
+        } else if (type == 2) {
+            nextBitmap = nextBitmap != null ? nextBitmap : createNewBitmap(w, h);
+            cache = nextBitmap;
+        }
+        return cache;
+    }
+
+    private Bitmap createNewBitmap(int w, int h) {
+        return Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);
+    }
+
+    private void clearBitmapCache() {
+        if (null != previousBitmap) {
+            previousBitmap.recycle();
+            previousBitmap = null;
+        }
+        if (null != currentBitmap) {
+            currentBitmap.recycle();
+            currentBitmap = null;
+        }
+        if (null != nextBitmap) {
+            nextBitmap.recycle();
+            nextBitmap = null;
+        }
+    }
 
 }
