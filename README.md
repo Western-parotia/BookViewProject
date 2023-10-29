@@ -1,10 +1,13 @@
 ![中文文档](./README-ZH.md)
 
-This is an Android-based reader project that uses a ViewGroup with custom RecyclerView and
-LayoutManager to achieve complete separation of animation and data binding, allowing for custom item
-views.
+This is a reader project for the Android platform.
+It is based on a custom RecyclerView within a ViewGroup and uses a custom LayoutManager.
+By arranging elements along the Z-axis, it achieves complete separation of reader animations and
+data binding,
+allowing for full customization of the ItemView.
 
-The project supports embedded images and video ads, as shown in the video below:
+It also supports embedding image and video advertisements. Please see the video below for an example
+of the effects:
 
 https://user-images.githubusercontent.com/13959965/230751166-a72e1f4b-317b-47a7-aa1c-bbc70ca34f13.mp4
 
@@ -22,12 +25,9 @@ bookView.setFlipMode(@BookLayoutManager.BookFlipMode)
 
 # Directory structure
 
-* app module：Reader View demo
-* gpu_test module：A pure curl anim demo
+* app module：BookView demo
 
-```java
-BookRecyclerView.printViewToBitmap()
-```
+* gpu_test module：A demo of pure curl animations
 
 
 

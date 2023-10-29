@@ -10,10 +10,6 @@
 
 * 内存增长问题,可通过增加bitmap缓存解决。bitmap创建的代码位置：2023-10-29 添加缓存策略
 
-```java
-BookRecyclerView.printViewToBitmap()
-```
-
 # 实现思路介绍
 
 采用木偶View将渲染， Paper页面布局、事件、动画完全分离。PaperLayout继承成自LinearLayout，
