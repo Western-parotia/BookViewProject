@@ -1,4 +1,4 @@
-![中文文档](./README-ZH.md)
+[中文文档](./README-ZH.md)
 
 This is a reader project for the Android platform.
 It is based on a custom RecyclerView within a ViewGroup and uses a custom LayoutManager.
