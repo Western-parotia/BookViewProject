@@ -31,19 +31,14 @@ public class BookLayoutManager extends RecyclerView.LayoutManager {
     private float onceCompleteScrollLength = -1;
 
     /**
-     * 第一个子view的偏移量
-     */
-    private float firstChildCompleteScrollLength = -1;
-
-    /**
      * 屏幕可见第一个view的position
      */
-    private int firstVisiPos;
+    private int firstPos;
 
     /**
      * 屏幕可见的最后一个view的position
      */
-    private int fastVisiPos;
+    private int lastPos;
 
     /**
      * 水平方向累计偏移量
@@ -169,7 +164,7 @@ public class BookLayoutManager extends RecyclerView.LayoutManager {
     }
 
     public int findShouldSelectPosition() {
-        if (onceCompleteScrollLength == -1 || firstVisiPos == -1) {
+        if (onceCompleteScrollLength == -1 || firstPos == -1) {
             return -1;
         }
         int position;
@@ -287,7 +282,7 @@ public class BookLayoutManager extends RecyclerView.LayoutManager {
 
         if (onceCompleteScrollLength == -1) {
             // 因为firstVisiPos在下面可能被改变，所以用tempPosition暂存一下
-            tempPosition = firstVisiPos;
+            tempPosition = firstPos;
             tempView = recycler.getViewForPosition(tempPosition);
             measureChildWithMargins(tempView, 0, 0);
             //以第一个子view宽度为计算标准，这样就不支持 itemType 了。全部item要保持宽度一样，margin参数一样
@@ -295,16 +290,19 @@ public class BookLayoutManager extends RecyclerView.LayoutManager {
         }
         // 修正第一个可见view firstVisiPos 已经滑动了多少个完整的onceCompleteScrollLength就代表滑动了多少个item
 
-        firstChildCompleteScrollLength = getWidth() / 2 + childWidth / 2;
+        /**
+         * 第一个子view的偏移量
+         */
+        float firstChildCompleteScrollLength = getWidth() / 2F + childWidth / 2F;
 
         if (horizontalOffset >= firstChildCompleteScrollLength) {
             layoutX = 0;
             onceCompleteScrollLength = childWidth;
             //计算 滚动到了 哪个view的区域
-            firstVisiPos = (int) Math.floor(Math.abs(horizontalOffset - firstChildCompleteScrollLength) / onceCompleteScrollLength) + 1;
+            firstPos = (int) Math.floor(Math.abs(horizontalOffset - firstChildCompleteScrollLength) / onceCompleteScrollLength) + 1;
             fraction = (Math.abs(horizontalOffset - firstChildCompleteScrollLength) % onceCompleteScrollLength) / (onceCompleteScrollLength * 1.0f);
         } else {
-            firstVisiPos = 0;
+            firstPos = 0;
             layoutX = getMinOffset();
             //记录单个view 需要滚动的距离
             onceCompleteScrollLength = firstChildCompleteScrollLength;
@@ -312,13 +310,13 @@ public class BookLayoutManager extends RecyclerView.LayoutManager {
         }
         // 临时将fastVisiPos赋值为getItemCount() - 1，放心，下面遍历时会判断view是否已溢出屏幕，并及时修正该值并结束布局
         //注意这里 是adapter 的 个数，而不是 state 保存的view 显示数量
-        fastVisiPos = getItemCount() - 1;
+        lastPos = getItemCount() - 1;
         //这里似乎多此一举了 ，可以把 分母直接替换为 normalViewOffset 在上面的逻辑中计算出来
         float normalViewOffset = onceCompleteScrollLength * fraction;
         boolean isNormalViewOffsetSetted = false;
 
         //-----------------------3 确认view位置---------------
-        for (int itemIndex = firstVisiPos; itemIndex <= fastVisiPos; itemIndex++) {
+        for (int itemIndex = firstPos; itemIndex <= lastPos; itemIndex++) {
 
             View itemView;
 
@@ -353,7 +351,7 @@ public class BookLayoutManager extends RecyclerView.LayoutManager {
             layoutX += childWidth;
             //修正溢出屏幕的view个数
             if (layoutX > getWidth() - getPaddingRight()) {
-                fastVisiPos = itemIndex;
+                lastPos = itemIndex;
                 break;
             }
         }//end for

@@ -26,7 +26,7 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
 
     int vWidth = 1;
     int vHeight = 1;
-    private final PuppetView readAnimView;
+    private final PuppetView puppetView;
 
     private boolean isCancelFlip = false;
 
@@ -44,7 +44,7 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
     private final int shadowWidth;
 
     public CoverAnimationEffecter(PuppetView readAnimView) {
-        this.readAnimView = readAnimView;
+        this.puppetView = readAnimView;
         scroller = new Scroller(readAnimView.getContext(), new AccelerateDecelerateInterpolator());
         scrollRunnable = new ScrollRunnable();
         menuBounds = new RectF();
@@ -95,7 +95,7 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
                     } else {
                         coverSlideDirection = AnimHelper.SLID_DIRECTION_LEFT;
                     }
-                    readAnimView.buildBitmap(coverSlideDirection);
+                    puppetView.buildBitmap(coverSlideDirection);
                     prepareDrawCoverAnimEffect = checkAnimCondition(coverSlideDirection);
                 }
 
@@ -134,18 +134,18 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
                 } else if (downArea == DOWN_AREA_MENU) {
                     if (x > menuBounds.left && x < menuBounds.right
                             && y > menuBounds.top && y < menuBounds.bottom) {
-                        readAnimView.onClickMenuArea();
+                        puppetView.onClickMenuArea();
                     }
                 } else if (downArea != DOWN_AREA_NONE) {
                     if (x == downX && downX >= vWidth / 2F) {//下一页
                         coverSlideDirection = AnimHelper.SLID_DIRECTION_LEFT;
-                        readAnimView.buildBitmap(coverSlideDirection);
+                        puppetView.buildBitmap(coverSlideDirection);
                         if (checkAnimCondition(coverSlideDirection)) {
                             touchUp(true);
                         }
                     } else if (x == downX && downX < vWidth / 2F) {//上一页
                         coverSlideDirection = AnimHelper.SLID_DIRECTION_RIGHT;
-                        readAnimView.buildBitmap(coverSlideDirection);
+                        puppetView.buildBitmap(coverSlideDirection);
                         if (checkAnimCondition(coverSlideDirection)) {
                             touchUp(false);
                         }
@@ -166,8 +166,7 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
                 || (coverSlideDirection == AnimHelper.SLID_DIRECTION_LEFT && !lastFingerLeftSlop);
 
         int duration = isCancelFlip ? AnimHelper.CANCEL_ANIM_DURATION : AnimHelper.RELAY_ANIM_DURATION;
-        duration = (int) (duration * 0.7F);//cover动画时间减少一点
-//        duration = 1000;//cover动画时间减少一点
+        duration = (int) (duration * 0.7F);
         int startX = (int) currentX;
         int startY = 0;
         int dy = 0;
@@ -195,11 +194,11 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
             return;
         }
         if (coverSlideDirection == AnimHelper.SLID_DIRECTION_LEFT
-                && (null == readAnimView.getCurrentBitmap() || null == readAnimView.getNextBitmap())) {
+                && (null == puppetView.getCurrentBitmap() || null == puppetView.getNextBitmap())) {
             DLog.log("CoverAnimationEffect draw 3");
             return;
         }
-        if (coverSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT && null == readAnimView.getPreviousBitmap()) {
+        if (coverSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT && null == puppetView.getPreviousBitmap()) {
             DLog.log("CoverAnimationEffect draw 4");
             return;
         }
@@ -209,25 +208,25 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
             offset = Math.max(0, offset);
             canvas.save();
             canvas.clipPath(getPathAToLeft());
-            canvas.drawBitmap(readAnimView.getCurrentBitmap(), -offset, 0, paint);
+            canvas.drawBitmap(puppetView.getCurrentBitmap(), -offset, 0, paint);
             canvas.restore();
             canvas.save();
             canvas.clipPath(getPathB());
-            canvas.drawBitmap(readAnimView.getNextBitmap(), 0, 0, paint);
+            canvas.drawBitmap(puppetView.getNextBitmap(), 0, 0, paint);
             canvas.restore();
             drawShadow((int) (vWidth - offset), canvas);
         } else {
             float leftOffset = vWidth - currentX;
             canvas.save();
             canvas.clipPath(getPathAToRight());
-            canvas.drawBitmap(readAnimView.getPreviousBitmap(), -leftOffset, 0, paint);
+            canvas.drawBitmap(puppetView.getPreviousBitmap(), -leftOffset, 0, paint);
             canvas.restore();
             drawShadow((int) currentX, canvas);
         }
     }
 
     private void drawShadow(int left, Canvas canvas) {
-        GradientDrawable drawable = readAnimView.getAnimHelper().getCoverGradientDrawable();
+        GradientDrawable drawable = puppetView.getAnimHelper().getCoverGradientDrawable();
         drawable.setBounds(left, 0, left + shadowWidth, vHeight);
         drawable.draw(canvas);
     }
@@ -270,9 +269,9 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
     }
 
     private boolean checkAnimCondition(int slideDirection) {
-        if (slideDirection == AnimHelper.SLID_DIRECTION_LEFT && (null != readAnimView.getNextBitmap() && null != readAnimView.getCurrentBitmap())) {
+        if (slideDirection == AnimHelper.SLID_DIRECTION_LEFT && (null != puppetView.getNextBitmap() && null != puppetView.getCurrentBitmap())) {
             return true;
-        } else if (slideDirection == AnimHelper.SLID_DIRECTION_RIGHT && null != readAnimView.getPreviousBitmap()) {
+        } else if (slideDirection == AnimHelper.SLID_DIRECTION_RIGHT && null != puppetView.getPreviousBitmap()) {
             return true;
         }
         return false;
@@ -300,11 +299,11 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
 
     @Override
     public void onViewDetachedFromWindow() {
-        readAnimView.removeCallbacks(scrollRunnable);
+        puppetView.removeCallbacks(scrollRunnable);
     }
 
     private void invalidate() {
-        readAnimView.postInvalidate();
+        puppetView.postInvalidate();
     }
 
     @Override
@@ -317,7 +316,7 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
                 scroller.forceFinished(true);
                 //补一点时间，避免动画太快结束，提供两次动画触发间隔
                 DLog.log("coverAnimationRunning coverAnimationRunning=%s 结束，延时开启 状态重置", coverAnimationRunning);
-                readAnimView.post(scrollRunnable);
+                puppetView.post(scrollRunnable);
             } else {
                 currentX = x;
                 invalidate();
@@ -330,17 +329,16 @@ public class CoverAnimationEffecter implements IAnimationEffecter {
     protected class ScrollRunnable implements Runnable {
         @Override
         public void run() {
-            readAnimView.reset();
+            puppetView.reset();
             coverAnimationRunning = false;
             if (!isCancelFlip) {
                 if (coverSlideDirection == AnimHelper.SLID_DIRECTION_LEFT) {
-                    readAnimView.onExpectNext();
+                    puppetView.onExpectNext();
                 } else if (coverSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT) {
-                    readAnimView.onExpectPrevious();
+                    puppetView.onExpectPrevious();
                 }
             }
             invalidate();
-
         }
     }
 }

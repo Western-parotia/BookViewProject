@@ -37,7 +37,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
 
     int vWidth = 1;
     int vHeight = 1;
-    private final PuppetView readAnimView;
+    private final PuppetView puppetView;
     private boolean isCancelFlip = false;
     private boolean curlAnimationRunning = false;
     private boolean isTouching = false;
@@ -69,7 +69,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
 
 
     public SimulationAnimationEffecter(PuppetView readAnimView) {
-        this.readAnimView = readAnimView;
+        this.puppetView = readAnimView;
         pointPaint = new Paint();
         pointPaint.setColor(Color.RED);
         pointPaint.setTextSize(25);
@@ -97,7 +97,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
         pathRightShadow = new Path();
         pathLeftShadow = new Path();
 
-        ColorMatrix cm = new ColorMatrix();//设置颜色数组
+        ColorMatrix cm = new ColorMatrix();
         float[] array = {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0};
         cm.set(array);
         colorMatrixColorFilter = new ColorMatrixColorFilter(cm);
@@ -116,12 +116,12 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
             if (x == finalX && y == finalY) {
                 if (!isCancelFlip) {
                     if (curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT) {
-                        readAnimView.onExpectNext();
+                        puppetView.onExpectNext();
                     } else if (curlSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT) {
-                        readAnimView.onExpectPrevious();
+                        puppetView.onExpectPrevious();
                     }
                 }
-                readAnimView.post(scrollRunnable);
+                puppetView.post(scrollRunnable);
             } else {
                 touchMove(x, y, curlSlideDirection, false, true);
             }
@@ -167,7 +167,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
                             curlSlideDirection = AnimHelper.SLID_DIRECTION_LEFT;
                         }
                         touchDown(downArea, curlSlideDirection);
-                        readAnimView.buildBitmap(curlSlideDirection);
+                        puppetView.buildBitmap(curlSlideDirection);
                         drawCurlAnimBefore = checkAnimCondition(curlSlideDirection, downArea);
                     }
                     if (drawCurlAnimBefore) {
@@ -204,14 +204,14 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
                     }
                 } else if (downArea == DOWN_AREA_MENU) {
                     if (x > menuBounds.left && x < menuBounds.right && y > menuBounds.top && y < menuBounds.bottom) {
-                        readAnimView.onClickMenuArea();
+                        puppetView.onClickMenuArea();
                     }
                 } else if (downArea != DOWN_AREA_NONE) {
 
                     if (x == downX && downX >= vWidth / 2F) {//下一页
                         curlSlideDirection = AnimHelper.SLID_DIRECTION_LEFT;
                         touchDown(downArea, curlSlideDirection);
-                        readAnimView.buildBitmap(curlSlideDirection);
+                        puppetView.buildBitmap(curlSlideDirection);
                         if (checkAnimCondition(curlSlideDirection, downArea)) {
                             touchMove(x, y, curlSlideDirection, true, false);
                             touchUp(true);
@@ -220,7 +220,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
                     } else if (x == downX && downX < vWidth / 2F) {//上一页
                         curlSlideDirection = AnimHelper.SLID_DIRECTION_RIGHT;
                         touchDown(downArea, curlSlideDirection);
-                        readAnimView.buildBitmap(curlSlideDirection);
+                        puppetView.buildBitmap(curlSlideDirection);
                         if (checkAnimCondition(curlSlideDirection, downArea)) {
                             touchMove(x, y, curlSlideDirection, true, false);
                             touchUp(false);
@@ -255,7 +255,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
 
     @Override
     public void onViewDetachedFromWindow() {
-        readAnimView.removeCallbacks(scrollRunnable);
+        puppetView.removeCallbacks(scrollRunnable);
     }
 
     @Override
@@ -266,10 +266,10 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
         if (curlSlideDirection != AnimHelper.SLID_DIRECTION_LEFT && curlSlideDirection != AnimHelper.SLID_DIRECTION_RIGHT) {
             return;
         }
-        if (curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT && (null == readAnimView.getCurrentBitmap() || null == readAnimView.getNextBitmap())) {
+        if (curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT && (null == puppetView.getCurrentBitmap() || null == puppetView.getNextBitmap())) {
             return;
         }
-        if (curlSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT && null == readAnimView.getPreviousBitmap()) {
+        if (curlSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT && null == puppetView.getPreviousBitmap()) {
             return;
         }
 
@@ -280,7 +280,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
             pathA = getPathAFromRightBottom();
         }
         Path pathC = getPathC();
-        drawContent(canvas, pathA, pathC, readAnimView.getCurrentBitmap(), readAnimView.getNextBitmap(), readAnimView.getPreviousBitmap());
+        drawContent(canvas, pathA, pathC, puppetView.getCurrentBitmap(), puppetView.getNextBitmap(), puppetView.getPreviousBitmap());
         drawShaDow(canvas, pathA, pathC);
     }
 
@@ -338,9 +338,9 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
 
         if (curlAnimationRunning || notAtSlideArea) return false;
 
-        if (curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT && (null != readAnimView.getNextBitmap() && null != readAnimView.getCurrentBitmap())) {
+        if (curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT && (null != puppetView.getNextBitmap() && null != puppetView.getCurrentBitmap())) {
             return true;
-        } else if (curlSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT && null != readAnimView.getPreviousBitmap()) {
+        } else if (curlSlideDirection == AnimHelper.SLID_DIRECTION_RIGHT && null != puppetView.getPreviousBitmap()) {
             return true;
         }
         return false;
@@ -392,7 +392,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
     }
 
     private void invalidate() {
-        readAnimView.postInvalidate();
+        puppetView.postInvalidate();
     }
 
     private void touchMoveAndInvalidate(float x, float y, int curlSlideDirection, boolean offset) {
@@ -439,7 +439,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
             canvas.save();
             canvas.clipPath(pathC);
             canvas.clipPath(pathA, Region.Op.DIFFERENCE);
-            canvas.drawColor(readAnimView.getBackgroundColor());
+            canvas.drawColor(puppetView.getBackgroundColor());
             bitmapPaint.setColorFilter(colorMatrixColorFilter);
             canvas.drawBitmap(curBitmap, matrix, bitmapPaint);//绘制背面到C区
             canvas.drawColor(tempColor);//叠加背景
@@ -497,13 +497,13 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
         GradientDrawable gradientDrawable;
         if (downArea == DOWN_AREA_TOP_RIGHT && curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT) {
             //从左向右线性渐变
-            gradientDrawable = readAnimView.getAnimHelper().getTopBGradientDrawable();
+            gradientDrawable = puppetView.getAnimHelper().getTopBGradientDrawable();
 
             left = (int) (c.x - deepOffset);//c点位于左上角
             right = (int) (c.x + aTof / 4 + lightOffset);
         } else {
             //从右向左线性渐变
-            gradientDrawable = readAnimView.getAnimHelper().getBottomBGradientDrawable();
+            gradientDrawable = puppetView.getAnimHelper().getBottomBGradientDrawable();
 
             left = (int) (c.x - aTof / 4 - lightOffset);//c点位于左下角
             right = (int) (c.x + deepOffset);
@@ -538,11 +538,11 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
         int bottom = (int) (viewDiagonalLength + c.y);
         GradientDrawable gradientDrawable;
         if (downArea == DOWN_AREA_TOP_RIGHT && curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT) {
-            gradientDrawable = readAnimView.getAnimHelper().getTopCGradientDrawable();
+            gradientDrawable = puppetView.getAnimHelper().getTopCGradientDrawable();
             left = (int) (c.x - lightOffset);
             right = (int) (c.x + minDisToControlPoint + deepOffset);
         } else {
-            gradientDrawable = readAnimView.getAnimHelper().getBottomCGradientDrawable();
+            gradientDrawable = puppetView.getAnimHelper().getBottomCGradientDrawable();
             left = (int) (c.x - minDisToControlPoint - deepOffset);
             right = (int) (c.x + lightOffset);
         }
@@ -571,11 +571,11 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
         int bottom = (int) (e.y + vHeight);
         GradientDrawable gradientDrawable;
         if (downArea == DOWN_AREA_TOP_RIGHT && curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT) {
-            gradientDrawable = readAnimView.getAnimHelper().getTopLeftGradientDrawable();
+            gradientDrawable = puppetView.getAnimHelper().getTopLeftGradientDrawable();
             left = (int) (e.x - lPathAShadowDis / 2);
             right = (int) (e.x);
         } else {
-            gradientDrawable = readAnimView.getAnimHelper().getBottomLeftGradientDrawable();
+            gradientDrawable = puppetView.getAnimHelper().getBottomLeftGradientDrawable();
             left = (int) (e.x);
             right = (int) (e.x + lPathAShadowDis / 2);
         }
@@ -613,11 +613,11 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
         int offset = 0;
         GradientDrawable gradientDrawable;
         if (downArea == DOWN_AREA_TOP_RIGHT && curlSlideDirection == AnimHelper.SLID_DIRECTION_LEFT) {
-            gradientDrawable = readAnimView.getAnimHelper().getTopRightGradientDrawable();
+            gradientDrawable = puppetView.getAnimHelper().getTopRightGradientDrawable();
             top = (int) (h.y - rPathAShadowDis / 2) + offset;
             bottom = (int) h.y;
         } else {
-            gradientDrawable = readAnimView.getAnimHelper().getBottomRightGradientDrawable();
+            gradientDrawable = puppetView.getAnimHelper().getBottomRightGradientDrawable();
             top = (int) h.y;
             bottom = (int) (h.y + rPathAShadowDis / 2);
         }
@@ -752,7 +752,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
      * @param lineTwo_My_pointTwo
      * @return
      */
-    private void caculateIntersectionPoint(FPoint save, FPoint lineOne_My_pointOne, FPoint lineOne_My_pointTwo, FPoint lineTwo_My_pointOne, FPoint lineTwo_My_pointTwo) {
+    private void calculateIntersectionPoint(FPoint save, FPoint lineOne_My_pointOne, FPoint lineOne_My_pointTwo, FPoint lineTwo_My_pointOne, FPoint lineTwo_My_pointTwo) {
         float x1, y1, x2, y2, x3, y3, x4, y4;
         x1 = lineOne_My_pointOne.x;
         y1 = lineOne_My_pointOne.y;
@@ -791,8 +791,8 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
         j.x = f.x;
         j.y = h.y - (f.y - h.y) / 2;
 
-        caculateIntersectionPoint(b, a, e, c, j);
-        caculateIntersectionPoint(k, a, h, c, j);
+        calculateIntersectionPoint(b, a, e, c, j);
+        calculateIntersectionPoint(k, a, h, c, j);
 
         d.x = (c.x + 2 * e.x + b.x) / 4;
         d.y = (2 * e.y + c.y + b.y) / 4;
@@ -816,7 +816,7 @@ public class SimulationAnimationEffecter implements IAnimationEffecter {
     protected class ScrollRunnable implements Runnable {
         @Override
         public void run() {
-            readAnimView.reset();
+            puppetView.reset();
             curlAnimationRunning = false;
             invalidate();
         }

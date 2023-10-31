@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class BookRecyclerView extends RecyclerView implements RVInnerItemFunction, RVOuterFunction {
 
-    private final BookLayoutManager readLayoutManger;
+    private final BookLayoutManager layoutManager;
 
     private boolean allowInterceptTouchEvent = true;
 
@@ -44,10 +44,10 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
 
     public BookRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        readLayoutManger = new BookLayoutManager(context);
-        setLayoutManager(readLayoutManger);
-        readLayoutManger.setOnForceLayoutCompleted(new ItemOnForceLayoutCompleted());
-        readLayoutManger.setonStopScroller(new ItemOnScrollStop());
+        layoutManager = new BookLayoutManager(context);
+        setLayoutManager(layoutManager);
+        layoutManager.setOnForceLayoutCompleted(new ItemOnForceLayoutCompleted());
+        layoutManager.setonStopScroller(new ItemOnScrollStop());
     }
 
     @Override
@@ -82,18 +82,18 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
 
     @Override
     public void scrollToPosition(int position) {
-        readLayoutManger.forceScrollToPosition(position);
+        layoutManager.forceScrollToPosition(position);
     }
 
     @Override
     public void smoothScrollToPosition(int position) {
-        readLayoutManger.smoothScrollToPosition(position);
+        layoutManager.smoothScrollToPosition(position);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        readLayoutManger.onRecyclerViewSizeChange();
+        layoutManager.onRecyclerViewSizeChange();
     }
 
 
@@ -140,13 +140,13 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
                     float firstMoveX = moveSampling.get(0);
                     float finallyMoveX = lastMoveX - firstMoveX;
                     if (lastMoveX - downX < 0) {//左滑
-                        readLayoutManger.setAutoLeftScroll(finallyMoveX < 10);
+                        layoutManager.setAutoLeftScroll(finallyMoveX < 10);
                     } else {
-                        readLayoutManger.setAutoLeftScroll(finallyMoveX < 0);
+                        layoutManager.setAutoLeftScroll(finallyMoveX < 0);
                     }
                     moveSampling.clear();
                 } else {
-                    readLayoutManger.setAutoLeftScroll(false);
+                    layoutManager.setAutoLeftScroll(false);
                 }
 
                 break;
@@ -194,18 +194,18 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
     }
 
     protected void setFlipMode(int flipMode) {
-        readLayoutManger.setBookFlipMode(flipMode);
+        layoutManager.setBookFlipMode(flipMode);
         if (flipMode == BookLayoutManager.BookFlipMode.MODE_CURL || flipMode == BookLayoutManager.BookFlipMode.MODE_COVER) {
             allowInterceptTouchEvent = false;
         } else {
             allowInterceptTouchEvent = true;
         }
-        readLayoutManger.requestLayout();
+        layoutManager.requestLayout();
     }
 
     @Override
     public int getFlipMode() {
-        return readLayoutManger.getBookFlipMode();
+        return layoutManager.getBookFlipMode();
     }
 
     @Override
@@ -285,7 +285,7 @@ public class BookRecyclerView extends RecyclerView implements RVInnerItemFunctio
      * @return
      */
     private Bitmap printViewToBitmap(int pos, int type) {
-        View view = readLayoutManger.findViewByPosition(pos);
+        View view = layoutManager.findViewByPosition(pos);
         if (null != view) {
             if (view instanceof PaperLayout) {
                 PaperLayout pageView = (PaperLayout) view;
